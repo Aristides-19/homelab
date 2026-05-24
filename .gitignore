@@ -1,3 +1,5 @@
-*.env
-*env*.yaml
-!env.example.yaml
+.env.*
+env.yaml
+env.*.yaml
+!.env.sample
+!env.sample.yaml

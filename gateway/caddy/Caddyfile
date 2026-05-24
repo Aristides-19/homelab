@@ -1,0 +1,107 @@
+{
+	admin
+	servers {
+		trusted_proxies static 127.0.0.1 ::1 100.64.0.0/10
+	}
+}
+
+# Only admins, uptime monitor and gateway have access to hosts with this snippet
+(only_admin) {
+	@not_admin not remote_ip {args[:]} {$IP_GATEWAY} {$IP_MONITOR} {$IP_PC} {$IP_MOBILE} {$IP_TS_PC} {$IP_TS_MOBILE}
+	abort @not_admin
+}
+
+# Remote
+*.{$DOMAIN} {
+	encode zstd gzip
+
+	tls {
+		dns cloudflare {env.CLOUDF_DNS_ZONE_TOKEN}
+	}
+
+	header {
+		X-Frame-Options "SAMEORIGIN"
+		X-Content-Type-Options "nosniff"
+		X-XSS-Protection "1; mode=block"
+		Strict-Transport-Security "max-age=31536000;"
+	}
+
+	# Host
+	@proxmox host pxm.{$DOMAIN}
+	handle @proxmox {
+		import only_admin
+		reverse_proxy proxmox.host:8006 {
+			transport http {
+				tls_insecure_skip_verify
+			}
+		}
+	}
+
+	# Gateway LXC
+	@dns host dns.{$DOMAIN}
+	handle @dns {
+		import only_admin
+		reverse_proxy localhost:8080
+	}
+
+	# Data LXC
+	@paper host paper.{$DOMAIN}
+	handle @paper {
+		reverse_proxy data.lxc:8000 {
+			flush_interval -1
+		}
+		request_body {
+			max_size 512MB
+		}
+	}
+
+	@paper-gpt host paper-gpt.{$DOMAIN}
+	handle @paper-gpt {
+		import only_admin
+		reverse_proxy data.lxc:8080
+	}
+
+	@immich host immich.{$DOMAIN}
+	handle @immich {
+		reverse_proxy data.lxc:2283 {
+			flush_interval -1
+		}
+	}
+
+	@kara host kara.{$DOMAIN}
+	handle @kara {
+		reverse_proxy data.lxc:3000 {
+			flush_interval -1
+		}
+	}
+
+	# Monitor LXC
+	@uptime host uptime.{$DOMAIN}
+	handle @uptime {
+		import only_admin {$IP_BACKUP}
+		reverse_proxy monitor.lxc:3001
+	}
+
+	# Personal LXC
+	@vault host vault.{$DOMAIN}
+	handle @vault {
+		import only_admin
+		reverse_proxy personal.lxc:8080 {
+			header_up X-Real-IP {remote_host} # Vault uses this instead of X-Forwarded-For
+		}
+	}
+
+	# Fallback
+	@health host health.{$DOMAIN}
+	handle @health {
+		respond `OK` 200
+	}
+
+	handle {
+		redir https://health.{$DOMAIN}
+	}
+
+	handle_errors {
+		respond `Check server or service status and try again.` {err.status_code}
+	}
+}
