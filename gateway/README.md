@@ -1,1 +1,7 @@
 # Gateway LXC
+
+- Caddy as Reverse Proxy
+- Tailscale as VPN/Remote Access
+- Cloudflare as Tunnel
+- AdGuardHome as DNS ad-free
+- Unbound as DNS Resolver

@@ -1,0 +1,1 @@
+- Must set DNS rewrites in AdGuard for others LXCs
