@@ -1,0 +1,4 @@
+[Unit]
+Description=Check Tailscale uptime each 80s
+[Service]
+ExecStart=/bin/bash /opt/tailscale/uptime/check.sh

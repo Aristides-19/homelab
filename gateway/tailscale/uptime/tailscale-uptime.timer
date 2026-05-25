@@ -1,0 +1,8 @@
+[Unit]
+Description=Tailscale Uptime 80s Timer
+[Timer]
+OnBootSec=80s
+OnUnitActiveSec=80s
+AccuracySec=1s
+[Install]
+WantedBy=timers.target
