@@ -2,6 +2,7 @@
 
 echo "WARNING: Ensure TARGET_TAILNET_IP and KUMA_URL are configured in uptime/check.sh"
 
+cp /opt/tailscale/uptime/check.sample.sh /opt/tailscale/uptime/check.sh
 chmod +x /opt/tailscale/uptime/check.sh
 
 cp tailscale-uptime.service /etc/systemd/system/
