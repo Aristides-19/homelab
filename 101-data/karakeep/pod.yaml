@@ -1,0 +1,65 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: karakeep
+spec:
+  containers:
+    # Edit version if KARAKEEP_VERSION changes in env file
+    - name: web
+      image: ghcr.io/karakeep-app/karakeep:release
+      envFrom:
+        - configMapRef:
+            name: env
+      ports:
+        - containerPort: 3000
+          hostPort: 3000
+      volumeMounts:
+        - name: data
+          mountPath: /data
+      livenessProbe:
+          httpGet:
+            path: /signin
+            port: 3000
+            host: karakeep
+          initialDelaySeconds: 20
+          periodSeconds: 10
+          
+    - name: chrome
+      image: gcr.io/zenika-hub/alpine-chrome:124
+      args:
+        - "--no-sandbox"
+        - "--disable-gpu"
+        - "--disable-dev-shm-usage"
+        - "--remote-debugging-address=0.0.0.0"
+        - "--remote-debugging-port=9222"
+        - "--hide-scrollbars"
+      
+    - name: meilisearch
+      image: docker.io/getmeili/meilisearch:v1.41.0
+      volumeMounts:
+        - name: meilidata
+          mountPath: /meili_data
+      env:
+        - name: MEILI_NO_ANALYTICS
+          value: "true"
+        - name: MEILI_MASTER_KEY
+          valueFrom:
+            configMapKeyRef:
+              name: env
+              key: MEILI_MASTER_KEY
+      livenessProbe:
+          httpGet:
+            path: /health
+            port: 7700
+          initialDelaySeconds: 30
+          periodSeconds: 15
+
+  volumes:
+    - name: data
+      hostPath:
+        path: /data/karakeep/data
+        type: DirectoryOrCreate
+    - name: meilidata
+      hostPath:
+        path: /data/karakeep/meilidata
+        type: DirectoryOrCreate

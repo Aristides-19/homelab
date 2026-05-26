@@ -1,0 +1,10 @@
+[Unit]
+Description=Karakeep Stack (Podman KUBE)
+After=network-online.target
+
+[Kube]
+Yaml=/opt/karakeep/pod.yaml
+ConfigMap=/opt/karakeep/env.yaml
+
+[Install]
+WantedBy=multi-user.target
