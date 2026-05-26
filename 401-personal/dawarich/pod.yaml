@@ -1,0 +1,153 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dawarich
+spec:
+  containers:
+    - name: app
+      image: docker.io/freikin/dawarich:latest
+      envFrom:
+        - configMapRef:
+            name: env
+      ports:
+        # DAWARICH_APP_PORT
+        - containerPort: 3000
+          hostPort: 3000
+      volumeMounts:
+        - name: db
+          mountPath: /dawarich_db_data
+        - name: storage
+          mountPath: /var/app/storage
+        - name: watched
+          mountPath: /var/app/tmp/imports/watched
+        - name: public
+          mountPath: /var/app/public
+      stdin: true
+      tty: true
+      command: ["web-entrypoint.sh"]
+      args: ["bin/rails", "server", "-p", "3000", "-b", "::"]
+      livenessProbe:
+        exec:
+          command:
+            - /bin/sh
+            - -c
+            - "wget -qO - http://127.0.0.1:3000/api/v1/health | grep -q '\"status\"\\s*:\\s*\"ok\"'"
+        initialDelaySeconds: 30
+        periodSeconds: 10
+        timeoutSeconds: 10
+        failureThreshold: 30
+      resources:
+        limits:
+          cpu: "500m"
+          memory: "1.5Gi"
+        requests:
+          cpu: "200m"
+          memory: "1Gi"
+
+    - name: sidekiq
+      image: docker.io/freikin/dawarich:latest
+      envFrom:
+        - configMapRef:
+            name: env
+      volumeMounts:
+        - name: storage
+          mountPath: /var/app/storage
+        - name: watched
+          mountPath: /var/app/tmp/imports/watched
+        - name: public
+          mountPath: /var/app/public
+      stdin: true
+      tty: true
+      command: ["sidekiq-entrypoint.sh"]
+      args: ["sidekiq"]
+      livenessProbe:
+        exec:
+          command:
+            - /bin/sh
+            - -c
+            - "pgrep -f sidekiq"
+        initialDelaySeconds: 30
+        periodSeconds: 10
+        timeoutSeconds: 10
+        failureThreshold: 30
+        
+    - name: redis
+      image: docker.io/library/redis:7.4-alpine
+      command: ["redis-server"]
+      args:
+        - "--save"
+        - "900"
+        - "1"
+        - "--save"
+        - "300"
+        - "10"
+        - "--appendonly"
+        - "no"
+      volumeMounts:
+        - name: shared
+          mountPath: /data
+      livenessProbe:
+        exec:
+          command: ["redis-cli", "--raw", "incr", "ping"]
+        initialDelaySeconds: 20
+        periodSeconds: 15
+        
+    - name: db
+      image: docker.io/postgis/postgis:17-3.5-alpine
+      env:
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: env
+              key: DATABASE_PASSWORD
+        - name: POSTGRES_USER
+          valueFrom:
+            configMapKeyRef:
+              name: env
+              key: DATABASE_USERNAME
+        - name: POSTGRES_DB
+          valueFrom:
+            configMapKeyRef:
+              name: env
+              key: DATABASE_NAME
+      volumeMounts:
+        - name: db
+          mountPath: /var/lib/postgresql/data
+        - name: shared
+          mountPath: /var/shared
+        - name: dshm
+          mountPath: /dev/shm
+      livenessProbe:
+        exec:
+          command:
+            - /bin/sh
+            - -c
+            - pg_isready -d "$POSTGRES_DB" -U "$POSTGRES_USER"
+        initialDelaySeconds: 10
+        periodSeconds: 15
+                      
+  volumes:
+    - name: db
+      hostPath:
+        path: /data/dawarich/db
+        type: DirectoryOrCreate
+    - name: storage
+      hostPath:
+        path: /data/dawarich/storage
+        type: DirectoryOrCreate
+    - name: watched
+      hostPath:
+        path: /data/dawarich/watched
+        type: DirectoryOrCreate
+    - name: public
+      hostPath:
+        path: /data/dawarich/public
+        type: DirectoryOrCreate
+    - name: shared
+      hostPath:
+        path: /data/dawarich/shared
+        type: DirectoryOrCreate
+    - name: dshm
+      emptyDir:
+        medium: Memory
+        sizeLimit: 1Gi

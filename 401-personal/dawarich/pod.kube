@@ -1,0 +1,10 @@
+[Unit]
+Description=Dawarich (Podman KUBE)
+After=network-online.target
+
+[Kube]
+Yaml=/opt/dawarich/pod.yaml
+ConfigMap=/opt/dawarich/env.yaml
+
+[Install]
+WantedBy=multi-user.target
