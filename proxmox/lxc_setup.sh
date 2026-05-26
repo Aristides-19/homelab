@@ -15,6 +15,8 @@ if ! grep -q "export EDITOR=micro" ~/.bashrc; then
     echo "Added micro as the default editor in ~/.bashrc"
 fi
 
+timedatectl set-timezone America/Caracas
+
 export EDITOR=micro
 source ~/.bashrc
 
