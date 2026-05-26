@@ -1,0 +1,10 @@
+[Unit]
+Description=Vaultwarden Server (Podman KUBE)
+After=network-online.target
+
+[Kube]
+Yaml=/opt/vaultwarden/pod.yaml
+ConfigMap=/opt/vaultwarden/env.yaml
+
+[Install]
+WantedBy=multi-user.target
