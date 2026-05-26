@@ -3,12 +3,13 @@ kind: Pod
 metadata:
   name: immich
 spec:
+  securityContext:
+    supplementalGroups: [44, 993]
+
   containers:
     - name: server
       # Edit this line if IMMICH_VERSION in .env file changes
       image: ghcr.io/immich-app/immich-server:v2
-      annotations:
-        podman.io/device: "/dev/dri/card1:/dev/dri/card1,/dev/dri/renderD128:/dev/dri/renderD128"
       envFrom:
         - configMapRef:
             name: env
@@ -27,14 +28,14 @@ spec:
         - name: localtime
           mountPath: /etc/localtime
           readOnly: true
-      securityContext:
-        privileged: true
+      resources:
+        limits:
+          podman.io/device=/dev/dri/card1: 1
+          podman.io/device=/dev/dri/renderD128: 1
 
     - name: ml
       # Edit this line if IMMICH_VERSION in .env file changes
       image: ghcr.io/immich-app/immich-machine-learning:v2-openvino
-      annotations:
-        podman.io/device: "/dev/dri/card1:/dev/dri/card1,/dev/dri/renderD128:/dev/dri/renderD128"
       envFrom:
         - configMapRef:
             name: env
@@ -45,8 +46,10 @@ spec:
           value: "2"
         - name: MACHINE_LEARNING_WORKER_TIMEOUT
           value: "300"
-      securityContext:
-        privileged: true
+      resources:
+        limits:
+          podman.io/device=/dev/dri/card1: 1
+          podman.io/device=/dev/dri/renderD128: 1
 
     - name: redis
       image: docker.io/valkey/valkey:9@sha256:3b55fbaa0cd93cf0d9d961f405e4dfcc70efe325e2d84da207a0a8e6d8fde4f9
