@@ -94,7 +94,7 @@
 	@dawa host dawa.{$DOMAIN}
 	handle @dawa {
 		import only_admin
-		reverse_proxy personal.lxc:8000
+		reverse_proxy personal.lxc:3000
 	}
 
 	# Fallback
