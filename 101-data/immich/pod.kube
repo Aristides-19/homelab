@@ -1,0 +1,10 @@
+[Unit]
+Description=Immich Stack (Podman KUBE)
+After=network-online.target
+
+[Kube]
+Yaml=/opt/immich/pod.yaml
+ConfigMap=/opt/immich/env.yaml
+
+[Install]
+WantedBy=multi-user.target
