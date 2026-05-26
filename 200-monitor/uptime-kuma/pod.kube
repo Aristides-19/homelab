@@ -1,0 +1,9 @@
+[Unit]
+Description=Uptime Kuma (Podman KUBE)
+After=network-online.target
+
+[Kube]
+Yaml=/opt/uptime-kuma/pod.yaml
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: uptime-kuma
+spec:
+  containers:
+    - name: server
+      image: docker.io/louislam/uptime-kuma:2
+      ports:
+        - containerPort: 3001
+          hostPort: 3001
+      volumeMounts:
+        - name: data
+          mountPath: /app/data
+      securityContext:
+        capabilities:
+          add:
+            - NET_RAW
+  volumes:
+    - name: data
+      hostPath:
+        path: /opt/uptime-kuma/data
+        type: DirectoryOrCreate
