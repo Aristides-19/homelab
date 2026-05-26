@@ -2,6 +2,13 @@
 
 apt update && apt upgrade -y && apt install -y xclip micro && apt remove -y nano && apt autoremove -y
 
+# Optional Podman installation
+read -p "Do you want to install Podman? (y/n): " install_podman
+if [[ "$install_podman" =~ ^[Yy]$ ]]; then
+    apt install -y podman
+    echo "Podman installed."
+fi
+
 mkdir -p ~/.config/micro
 cat <<EOF > ~/.config/micro/settings.json
 {

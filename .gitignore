@@ -3,4 +3,6 @@
 env.yaml
 env.*.yaml
 !.env.sample
+!.env.*.sample
 !env.sample.yaml
+!env.*.sample.yaml
