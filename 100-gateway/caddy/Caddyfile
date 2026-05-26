@@ -91,6 +91,12 @@
 		}
 	}
 
+	@dawa host dawa.{$DOMAIN}
+	handle @dawa {
+		import only_admin
+		reverse_proxy personal.lxc:8000
+	}
+
 	# Fallback
 	@health host health.{$DOMAIN}
 	handle @health {
