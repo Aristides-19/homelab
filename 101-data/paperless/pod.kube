@@ -1,0 +1,11 @@
+[Unit]
+Description=Paperless Stack (Podman KUBE)
+After=network-online.target
+
+[Kube]
+Yaml=/opt/paperless/pod.yaml
+ConfigMap=/opt/paperless/env.yaml
+ConfigMap=/opt/paperless/env.gpt.yaml
+
+[Install]
+WantedBy=multi-user.target

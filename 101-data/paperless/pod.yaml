@@ -1,0 +1,114 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: paperless
+spec:
+  containers:
+    - name: broker
+      image: docker.io/library/redis:8
+      volumeMounts:
+        - name: redis
+          mountPath: /data
+      livenessProbe:
+        exec:
+          command: ["redis-cli", "ping"]
+        initialDelaySeconds: 5
+        periodSeconds: 10
+          
+    - name: db
+      image: docker.io/library/postgres:18
+      volumeMounts:
+        - name: postgres
+          mountPath: /var/lib/postgresql
+      env:
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: env
+              key: PAPERLESS_DBPASS
+        - name: POSTGRES_USER
+          valueFrom:
+            configMapKeyRef:
+              name: env
+              key: PAPERLESS_DBUSER
+        - name: POSTGRES_DB
+          valueFrom:
+            configMapKeyRef:
+              name: env
+              key: PAPERLESS_DBNAME
+      livenessProbe:
+        exec:
+          command:
+            - /bin/sh
+            - -c
+            - pg_isready -d "$POSTGRES_DB" -U "$POSTGRES_USER"
+          initialDelaySeconds: 5
+          periodSeconds: 10
+
+    - name: webserver
+      image: ghcr.io/paperless-ngx/paperless-ngx:latest
+      #dependson db/brokers
+      envFrom:
+        - configMapRef:
+            name: env
+      ports:
+        - containerPort: 8000
+          hostPort: 8000
+      volumeMounts:
+        - name: data
+          mountPath: /usr/src/paperless/data
+        - name: media
+          mountPath: /usr/src/paperless/media
+        - name: export
+          mountPath: /usr/src/paperless/export
+        - name: consume
+          mountPath: /usr/src/paperless/consume
+      livenessProbe:
+          httpGet:
+            path: /
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 5
+
+    - name: gpt
+      image: ghcr.io/icereed/paperless-gpt:latest
+      #dependson webserver healthy
+      envFrom:
+        - configMapRef:
+            name: env.gpt
+      ports:
+        - containerPort: 8080
+          hostPort: 8080
+      volumeMounts:
+        - name: prompts
+          mountPath: /app/prompts
+
+  volumes:
+    - name: redis
+      hostPath:
+        path: /data/paperless/redis
+        type: DirectoryOrCreate
+    - name: postgres
+      hostPath:
+        path: /data/paperless/postgres
+        type: DirectoryOrCreate
+    - name: data
+      hostPath:
+        path: /data/paperless/data
+        type: DirectoryOrCreate
+    - name: media
+      hostPath:
+        path: /data/paperless/media
+        type: DirectoryOrCreate
+    - name: export
+      hostPath:
+        path: /data/paperless/export
+        type: DirectoryOrCreate
+    - name: consume
+      hostPath:
+        path: /data/paperless/consume
+        type: DirectoryOrCreate
+    - name: prompts
+      hostPath:
+        path: /data/paperless/gpt/prompts
+        type: DirectoryOrCreate
