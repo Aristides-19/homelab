@@ -24,6 +24,7 @@
 		X-Content-Type-Options "nosniff"
 		X-XSS-Protection "1; mode=block"
 		Strict-Transport-Security "max-age=31536000;"
+		defer
 	}
 
 	# Host
@@ -93,7 +94,6 @@
 
 	@dawa host dawa.{$DOMAIN}
 	handle @dawa {
-		import only_admin
 		reverse_proxy personal.lxc:3000
 	}
 
