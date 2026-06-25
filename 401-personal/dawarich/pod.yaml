@@ -27,11 +27,9 @@ spec:
       command: ["web-entrypoint.sh"]
       args: ["bin/rails", "server", "-p", "3000", "-b", "0.0.0.0"]
       livenessProbe:
-        exec:
-          command:
-            - /bin/sh
-            - -c
-            - "wget -qO - http://127.0.0.1:3000/api/v1/health | grep -q '\"status\"\\s*:\\s*\"ok\"'"
+        httpGet:
+          path: /api/v1/health
+          port: 3000
         initialDelaySeconds: 30
         periodSeconds: 10
         timeoutSeconds: 10
@@ -88,7 +86,7 @@ spec:
           mountPath: /data
       livenessProbe:
         exec:
-          command: ["redis-cli", "--raw", "incr", "ping"]
+          command: ["redis-cli", "ping"]
         initialDelaySeconds: 20
         periodSeconds: 15
         
