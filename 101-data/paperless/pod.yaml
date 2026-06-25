@@ -46,7 +46,7 @@ spec:
           periodSeconds: 10
 
     - name: webserver
-      image: ghcr.io/paperless-ngx/paperless-ngx:latest
+      image: ghcr.io/paperless-ngx/paperless-ngx:2.20
       #dependson db/brokers
       envFrom:
         - configMapRef:
@@ -71,7 +71,7 @@ spec:
           periodSeconds: 5
 
     - name: gpt
-      image: ghcr.io/icereed/paperless-gpt:latest
+      image: ghcr.io/icereed/paperless-gpt:v0.25.1
       #dependson webserver healthy
       envFrom:
         - configMapRef:

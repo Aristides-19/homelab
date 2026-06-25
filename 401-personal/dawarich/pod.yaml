@@ -5,7 +5,7 @@ metadata:
 spec:
   containers:
     - name: app
-      image: docker.io/freikin/dawarich:latest
+      image: docker.io/freikin/dawarich:1.9.1
       envFrom:
         - configMapRef:
             name: env
@@ -43,7 +43,7 @@ spec:
           memory: "1Gi"
 
     - name: sidekiq
-      image: docker.io/freikin/dawarich:latest
+      image: docker.io/freikin/dawarich:1.9.1
       envFrom:
         - configMapRef:
             name: env

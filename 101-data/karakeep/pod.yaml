@@ -6,7 +6,7 @@ spec:
   containers:
     # Edit version if KARAKEEP_VERSION changes in env file
     - name: web
-      image: ghcr.io/karakeep-app/karakeep:release
+      image: ghcr.io/karakeep-app/karakeep:0.32.0
       envFrom:
         - configMapRef:
             name: env
