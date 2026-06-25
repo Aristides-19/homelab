@@ -83,6 +83,12 @@
 		reverse_proxy monitor.lxc:3001
 	}
 
+	@dozzle host dozzle.{$DOMAIN}
+	handle @dozzle {
+		import only_admin
+		reverse_proxy monitor.lxc:8080
+	}
+
 	# Personal LXC
 	@vault host vault.{$DOMAIN}
 	handle @vault {
