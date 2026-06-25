@@ -4,7 +4,7 @@ After=network-online.target
 
 [Kube]
 Yaml=/opt/dozzle/pod.yaml
-ConfigMap=/opt/immich/env.yaml
+ConfigMap=/opt/dozzle/env.yaml
 
 [Install]
 WantedBy=multi-user.target
