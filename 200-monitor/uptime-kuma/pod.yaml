@@ -2,6 +2,8 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: uptime-kuma
+  annotations:
+    io.containers.autoupdate: "registry"
 spec:
   containers:
     - name: server
