@@ -23,6 +23,7 @@ if ! grep -q "export EDITOR=micro" ~/.bashrc; then
 fi
 
 timedatectl set-timezone America/Caracas
+loginctl enable-linger 0
 
 export EDITOR=micro
 source ~/.bashrc
