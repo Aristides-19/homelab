@@ -1,0 +1,10 @@
+[Unit]
+Description=Dozzle Agent (Podman KUBE)
+After=network-online.target
+
+[Kube]
+Yaml=/opt/dozzle-agent/pod.yaml
+ConfigMap=/opt/dozzle-agent/env.yaml
+
+[Install]
+WantedBy=multi-user.target
