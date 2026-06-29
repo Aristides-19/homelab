@@ -1,0 +1,56 @@
+Host *
+    IdentityAgent ~/.bitwarden-ssh-agent.sock
+
+Host proxmox-host
+    HostName proxmox.host
+    User root
+    Port 22
+    IdentityFile ~/.ssh/Proxmox.pub
+    IdentitiesOnly yes
+Host proxmox-host-kiosk
+    HostName proxmox.host
+    User kiosk
+    Port 22
+    IdentityFile ~/.ssh/ProxmoxKiosk.pub
+    IdentitiesOnly yes
+Host gateway-lxc
+    HostName gateway.lxc
+    User root
+    Port 22
+    IdentityFile ~/.ssh/Gateway.pub
+    IdentitiesOnly yes
+Host data-lxc
+    HostName data.lxc
+    Port 22
+    User root
+    ProxyJump gateway-lxc
+    IdentityFile ~/.ssh/Data.pub
+    IdentitiesOnly yes
+Host monitor-lxc
+    HostName monitor.lxc
+    Port 22
+    User root
+    ProxyJump gateway-lxc
+    IdentityFile ~/.ssh/Monitor.pub
+    IdentitiesOnly yes
+Host backup-lxc
+    HostName backup.lxc
+    User root
+    Port 22
+    ProxyJump gateway-lxc
+    IdentityFile ~/.ssh/Backup.pub
+    IdentitiesOnly yes
+Host personal-lxc
+    HostName personal.lxc
+    User root
+    Port 22
+    ProxyJump gateway-lxc
+    IdentityFile ~/.ssh/Personal.pub
+    IdentitiesOnly yes
+Host media-lxc
+    HostName media.lxc
+    User root
+    Port 22
+    ProxyJump gateway-lxc
+    IdentityFile ~/.ssh/Media.pub
+    IdentitiesOnly yes
