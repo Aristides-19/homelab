@@ -103,6 +103,12 @@
 		reverse_proxy personal.lxc:3000
 	}
 
+	@tools host tools.{$DOMAIN}
+	handle @tools {
+		import only_admin
+		reverse_proxy personal.lxc:8082
+	}
+
 	# Fallback
 	@health host health.{$DOMAIN}
 	handle @health {

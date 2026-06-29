@@ -1,0 +1,9 @@
+[Unit]
+Description=IT-Tools Server (Podman KUBE)
+After=network-online.target
+
+[Kube]
+Yaml=/opt/it-tools/pod.yaml
+
+[Install]
+WantedBy=multi-user.target
