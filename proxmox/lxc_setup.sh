@@ -6,7 +6,8 @@ apt update && apt upgrade -y && apt install -y xclip micro && apt remove -y nano
 read -p "Do you want to install Podman? (y/n): " install_podman
 if [[ "$install_podman" =~ ^[Yy]$ ]]; then
     apt install -y podman
-    echo "Podman installed."
+    systemctl enable --now podman.socket
+    echo "Podman installed with socket enabled."
 fi
 
 mkdir -p ~/.config/micro
