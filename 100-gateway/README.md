@@ -5,4 +5,3 @@ Everything installed as Bare Metal (no containers or pods).
 - Tailscale as VPN/Remote Access
 - Cloudflare as Tunnel
 - AdGuardHome as DNS ad-free
-- Unbound as DNS Resolver
