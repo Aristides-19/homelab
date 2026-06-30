@@ -5,7 +5,7 @@ metadata:
 spec:
   containers:
     - name: web
-      image: ghcr.io/corentinth/it-tools:latest
+      image: ghcr.io/sharevb/it-tools:latest
       ports:
-        - containerPort: 80
+        - containerPort: 8080
           hostPort: 8082
