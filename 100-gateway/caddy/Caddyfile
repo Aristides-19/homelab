@@ -19,8 +19,12 @@
 		dns cloudflare {env.CLOUDF_DNS_ZONE_TOKEN}
 	}
 
+	@not_embed {
+		not path /embed/*
+	}
+	header @not_embed X-Frame-Options "SAMEORIGIN"
+
 	header {
-		X-Frame-Options "SAMEORIGIN"
 		X-Content-Type-Options "nosniff"
 		X-XSS-Protection "1; mode=block"
 		Strict-Transport-Security "max-age=31536000;"
