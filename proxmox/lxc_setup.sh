@@ -1,6 +1,6 @@
 #!/bin/bash
 
-apt update && apt upgrade -y && apt install -y xclip micro && apt remove -y nano && apt autoremove -y
+apt update && apt upgrade -y && apt install -y xclip micro curl && apt remove -y nano && apt autoremove -y
 
 # Optional Podman installation
 read -p "Do you want to install Podman? (y/n): " install_podman
