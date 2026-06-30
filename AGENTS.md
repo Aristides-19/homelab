@@ -21,11 +21,12 @@
   - `env.sample.yaml`: Template environment variables (if applicable).
   - `setup.sh`: Script copy `pod.kube` systemd directory `/etc/containers/systemd/` trigger systemd auto-start.
 - Bare-metal services (no containers) use custom scripts, config files.
+- ASK USER permission before read `env.yaml` files. Equivalent to `.env` secrets.
 
 ## Mountpoints
 - Each service directory mounted from Proxmox host inside corresponding LXC.
 - Enables Proxmox host modify configs, immediately reflected inside LXC, vice versa.
-- ALWAYS run `proxmox/setup.sh` Proxmox host after edit/add files. Restores ownership (`100000:100000`) for unprivileged LXCs.
+- ALWAYS run `proxmox/permissions.sh` Proxmox host after edit/add files. Restores ownership (`100000:100000`) for unprivileged LXCs.
 
 ## Internal Network & Gateway
 - LXC `100-gateway` acts as subnet router.
@@ -36,8 +37,12 @@
 - Gateway forwards traffic internal network external network using IP forwarding (`net.ipv4.ip_forward=1`), NAT masquerade (`iptables -t nat -A POSTROUTING -s 10.0.0.0/24 -o eth0 -j MASQUERADE`).
 - Gateway hosts bare-metal services: Caddy (reverse proxy), Tailscale (VPN), Cloudflare Tunnel, AdGuardHome (ad-blocking DNS).
 
+## Command Execution
+- Run commands inside LXC from Proxmox host using `pct exec [id] -- [command]` (example: `pct exec 101 -- systemctl status karakeep`).
+
 ## Available Agent Skills
 | Skill                                                              | Description                                                  |
 | ------------------------------------------------------------------ | ------------------------------------------------------------ |
 | [authoring-skills](.agents/skills/authoring-skills/SKILL.md)       | Guides the creation, formatting, and refinement of Skills.   |
 | [caveman-compression](.agents/skills/caveman-compression/SKILL.md) | Aggressively removes stop words and grammatical scaffolding. |
+| [deploy-quadlet](.agents/skills/deploy-quadlet/SKILL.md)           | Guides creation and deployment of Podman Quadlet services.   |
