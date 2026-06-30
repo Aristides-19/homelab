@@ -1,4 +1,3 @@
 - Use port `53`.
 - Manually write DNS rewrites on AdGuard to LXC internal ips.
-- Manually add upstream DNS to Unbound at `127.0.0.1:5335`.
-- Disable cache since Unbound handles it.
+- Prefer DNS over HTTPS upstream such as `https://cloudflare-dns.com/dns-query`.
