@@ -1,0 +1,15 @@
+#!/bin/bash
+# Wrapper for caddy on the host to delegate calls to the gateway LXC (100)
+# Mostly used to get formatter with vscode extension (/usr/local/bin/caddy)
+
+args=()
+for arg in "$@"; do
+    # Translate host repository caddy paths to container paths
+    if [[ "$arg" == *"/opt/homelab/100-gateway/caddy/"* ]]; then
+        arg="${arg//\/opt\/homelab\/100-gateway\/caddy\//\/etc\/caddy\/}"
+    fi
+    args+=("$arg")
+done
+
+# Run via pct exec inside gateway LXC
+exec pct exec 100 -- caddy "${args[@]}"
