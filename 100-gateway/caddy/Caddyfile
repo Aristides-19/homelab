@@ -113,6 +113,25 @@
 		reverse_proxy personal.lxc:8082
 	}
 
+	# Media LXC
+	@cap host cap.{$DOMAIN}
+	handle @cap {
+		reverse_proxy media.lxc:3000 {
+			flush_interval -1
+		}
+	}
+	@s3 host s3.{$DOMAIN}
+	handle @s3 {
+		reverse_proxy media.lxc:9000 {
+			flush_interval -1
+		}
+	}
+	@minio host minio.{$DOMAIN}
+	handle @minio {
+		import only_admin
+		reverse_proxy media.lxc:9001
+	}
+
 	# Fallback
 	@health host health.{$DOMAIN}
 	handle @health {

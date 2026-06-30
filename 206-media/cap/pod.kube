@@ -1,0 +1,10 @@
+[Unit]
+Description=Cap Server (Podman KUBE)
+After=network-online.target
+
+[Kube]
+Yaml=/opt/cap/pod.yaml
+ConfigMap=/opt/cap/env.yaml
+
+[Install]
+WantedBy=multi-user.target
