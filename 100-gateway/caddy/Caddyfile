@@ -108,11 +108,6 @@
 		}
 	}
 
-	@dawa host dawa.{$DOMAIN}
-	handle @dawa {
-		reverse_proxy personal.lxc:3000
-	}
-
 	@tools host tools.{$DOMAIN}
 	handle @tools {
 		import only_admin
