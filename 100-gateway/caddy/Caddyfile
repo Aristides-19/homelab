@@ -11,6 +11,12 @@
 	abort @not_admin
 }
 
+# Only local networks and Tailscale have access to hosts with this snippet
+(only_local) {
+	@not_local not remote_ip 127.0.0.1 ::1 10.0.0.0/24 192.168.0.0/24 100.64.0.0/10
+	abort @not_local
+}
+
 # Remote
 *.{$DOMAIN} {
 	encode zstd gzip
@@ -96,7 +102,7 @@
 	# Personal LXC
 	@vault host vault.{$DOMAIN}
 	handle @vault {
-		import only_admin
+		import only_local
 		reverse_proxy personal.lxc:8080 {
 			header_up X-Real-IP {remote_host} # Vault uses this instead of X-Forwarded-For
 		}
