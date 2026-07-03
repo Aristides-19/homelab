@@ -1,0 +1,10 @@
+[Unit]
+Description=Home Assistant Pod (Podman Quadlet KUBE)
+After=network-online.target
+
+[Kube]
+Yaml=/opt/ha/pod.yaml
+ConfigMap=/opt/ha/env.yaml
+
+[Install]
+WantedBy=multi-user.target

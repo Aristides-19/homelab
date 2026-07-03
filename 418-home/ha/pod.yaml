@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ha
+spec:
+  hostNetwork: true
+  containers:
+    - name: server
+      image: ghcr.io/home-assistant/home-assistant:2026.7
+      securityContext:
+        privileged: true
+      envFrom:
+        - configMapRef:
+            name: env
+      volumeMounts:
+        - name: config
+          mountPath: /config
+        - name: localtime
+          mountPath: /etc/localtime
+          readOnly: true
+        - name: dbus
+          mountPath: /run/dbus
+          readOnly: true
+  volumes:
+    - name: config
+      hostPath:
+        path: /data/ha
+        type: DirectoryOrCreate
+    - name: localtime
+      hostPath:
+        path: /etc/localtime
+        type: File
+    - name: dbus
+      hostPath:
+        path: /run/dbus
+        type: Directory

@@ -133,6 +133,12 @@
 		reverse_proxy media.lxc:9001
 	}
 
+	# Home LXC
+	@ha host ha.{$DOMAIN}
+	handle @ha {
+		reverse_proxy home.lxc:8123
+	}
+
 	# Fallback
 	@health host health.{$DOMAIN}
 	handle @health {
