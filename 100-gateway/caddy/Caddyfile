@@ -13,7 +13,7 @@
 
 # Only local networks and Tailscale have access to hosts with this snippet
 (only_local) {
-	@not_local not remote_ip 127.0.0.1 ::1 10.0.0.0/24 192.168.0.0/24 100.64.0.0/10
+	@not_local not remote_ip 127.0.0.1 ::1 10.0.0.0/16 192.168.0.0/24 100.64.0.0/10
 	abort @not_local
 }
 
@@ -41,7 +41,7 @@
 	@proxmox host pxm.{$DOMAIN}
 	handle @proxmox {
 		import only_admin
-		reverse_proxy proxmox.host:8006 {
+		reverse_proxy {$IP_HOST}:8006 {
 			transport http {
 				tls_insecure_skip_verify
 			}
@@ -58,7 +58,7 @@
 	# Data LXC
 	@paper host paper.{$DOMAIN}
 	handle @paper {
-		reverse_proxy data.lxc:8000 {
+		reverse_proxy {$IP_DATA}:8000 {
 			flush_interval -1
 		}
 		request_body {
@@ -69,19 +69,19 @@
 	@paper-gpt host paper-gpt.{$DOMAIN}
 	handle @paper-gpt {
 		import only_admin
-		reverse_proxy data.lxc:8080
+		reverse_proxy {$IP_DATA}:8080
 	}
 
 	@immich host immich.{$DOMAIN}
 	handle @immich {
-		reverse_proxy data.lxc:2283 {
+		reverse_proxy {$IP_DATA}:2283 {
 			flush_interval -1
 		}
 	}
 
 	@kara host kara.{$DOMAIN}
 	handle @kara {
-		reverse_proxy data.lxc:3000 {
+		reverse_proxy {$IP_DATA}:3000 {
 			flush_interval -1
 		}
 	}
@@ -90,20 +90,20 @@
 	@uptime host uptime.{$DOMAIN}
 	handle @uptime {
 		import only_admin {$IP_BACKUP}
-		reverse_proxy monitor.lxc:3001
+		reverse_proxy {$IP_MONITOR}:3001
 	}
 
 	@dozzle host dozzle.{$DOMAIN}
 	handle @dozzle {
 		import only_admin
-		reverse_proxy monitor.lxc:8080
+		reverse_proxy {$IP_MONITOR}:8080
 	}
 
 	# Personal LXC
 	@vault host vault.{$DOMAIN}
 	handle @vault {
 		import only_local
-		reverse_proxy personal.lxc:8080 {
+		reverse_proxy {$IP_PERSONAL}:8080 {
 			header_up X-Real-IP {remote_host} # Vault uses this instead of X-Forwarded-For
 		}
 	}
@@ -111,32 +111,32 @@
 	@tools host tools.{$DOMAIN}
 	handle @tools {
 		import only_admin
-		reverse_proxy personal.lxc:8082
+		reverse_proxy {$IP_PERSONAL}:8082
 	}
 
 	# Media LXC
 	@cap host cap.{$DOMAIN}
 	handle @cap {
-		reverse_proxy media.lxc:3000 {
+		reverse_proxy {$IP_MEDIA}:3000 {
 			flush_interval -1
 		}
 	}
 	@s3 host s3.{$DOMAIN}
 	handle @s3 {
-		reverse_proxy media.lxc:9000 {
+		reverse_proxy {$IP_MEDIA}:9000 {
 			flush_interval -1
 		}
 	}
 	@minio host minio.{$DOMAIN}
 	handle @minio {
 		import only_admin
-		reverse_proxy media.lxc:9001
+		reverse_proxy {$IP_MEDIA}:9001
 	}
 
 	# Home LXC
 	@ha host ha.{$DOMAIN}
 	handle @ha {
-		reverse_proxy home.lxc:8123
+		reverse_proxy {$IP_HOME}:8123
 	}
 
 	# Fallback

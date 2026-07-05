@@ -32,9 +32,9 @@
 - LXC `100-gateway` acts as subnet router.
 - Gateway interfaces:
   - `eth0` on bridge `vmbr0` (external network, IP `192.168.0.3/24`, gateway `192.168.0.1`).
-  - `eth1` on bridge `vmbr1` (internal network, IP `10.0.0.1/24`).
-- Internal LXCs use `vmbr1` (subnet `10.0.0.0/24`), gateway IP set `10.0.0.1`.
-- Gateway forwards traffic internal network external network using IP forwarding (`net.ipv4.ip_forward=1`), NAT masquerade (`iptables -t nat -A POSTROUTING -s 10.0.0.0/24 -o eth0 -j MASQUERADE`).
+  - `eth1` on bridge `vmbr1` (internal network, IP `10.0.0.1/16`).
+- Internal LXCs use `vmbr1` (subnet `10.0.0.0/16`), gateway IP set `10.0.0.1`.
+- Gateway forwards traffic internal network external network using IP forwarding (`net.ipv4.ip_forward=1`), NAT masquerade (`iptables -t nat -A POSTROUTING -s 10.0.0.0/16 -o eth0 -j MASQUERADE`).
 - Gateway hosts bare-metal services: Caddy (reverse proxy), Tailscale (VPN), Cloudflare Tunnel, AdGuardHome (ad-blocking DNS).
 
 ## Command Execution
