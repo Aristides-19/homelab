@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: obsidian
+spec:
+  containers:
+    - name: db
+      image: docker.io/library/couchdb:3
+      envFrom:
+        - configMapRef:
+            name: env
+      ports:
+        - containerPort: 5984
+          hostPort: 5984
+      volumeMounts:
+        - name: db-data
+          mountPath: /opt/couchdb/data
+        - name: db-config
+          mountPath: /opt/couchdb/etc/local.d
+          
+  volumes:
+    - name: db-data
+      hostPath:
+        path: /data/obsidian/db/data
+        type: Directory
+    - name: db-config
+      hostPath:
+        path: /data/obsidian/db/config
+        type: Directory

@@ -114,6 +114,19 @@
 		reverse_proxy {$IP_PERSONAL}:8082
 	}
 
+	@obsidian-sync host obsidian-sync.{$DOMAIN}
+	handle @obsidian-sync {
+		@fauxton path /_utils*
+		handle @fauxton {
+			import only_admin
+			reverse_proxy {$IP_PERSONAL}:5984
+		}
+
+		handle {
+			reverse_proxy {$IP_PERSONAL}:5984
+		}
+	}
+
 	# Media LXC
 	@cap host cap.{$DOMAIN}
 	handle @cap {

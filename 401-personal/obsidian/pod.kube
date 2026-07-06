@@ -1,0 +1,10 @@
+[Unit]
+Description=Obsidian Pod
+After=network-online.target
+
+[Kube]
+Yaml=/opt/obsidian/pod.yaml
+ConfigMap=/opt/obsidian/env.yaml
+
+[Install]
+WantedBy=multi-user.target
