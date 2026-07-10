@@ -1,0 +1,11 @@
+[OPTIONS]
+
+ndp: 1
+enable: 1
+
+[RULES]
+
+IN ACCEPT -source dc/homelxc -p tcp -dport 3493 -log nolog # NUT Port from Home LXC
+GROUP ssh
+GROUP ping
+

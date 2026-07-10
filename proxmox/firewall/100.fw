@@ -1,0 +1,11 @@
+[OPTIONS]
+
+enable: 1
+
+[RULES]
+
+GROUP ping
+IN Web(ACCEPT) -log nolog
+IN DNS(ACCEPT) -log nolog
+GROUP ssh
+
