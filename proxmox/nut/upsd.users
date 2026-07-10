@@ -1,0 +1,6 @@
+# Network UPS Tools: upsd.users
+# Backed up from /etc/nut/upsd.users
+
+[upsmon_user]
+    password = REPLACE_WITH_SECURE_PASSWORD
+    upsmon primary
