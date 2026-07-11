@@ -26,6 +26,14 @@ fi
 timedatectl set-timezone America/Caracas
 loginctl enable-linger 0
 
+# Limit journald disk usage to 200M
+mkdir -p /etc/systemd/journald.conf.d
+cat <<EOF > /etc/systemd/journald.conf.d/00-journal-limit.conf
+[Journal]
+SystemMaxUse=200M
+EOF
+systemctl restart systemd-journald
+
 export EDITOR=micro
 source ~/.bashrc
 
