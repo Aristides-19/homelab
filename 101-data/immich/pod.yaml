@@ -9,7 +9,7 @@ spec:
   containers:
     - name: server
       # Edit this line if IMMICH_VERSION in .env file changes
-      image: ghcr.io/immich-app/immich-server:v2
+      image: ghcr.io/immich-app/immich-server:v3
       envFrom:
         - configMapRef:
             name: env
@@ -35,7 +35,7 @@ spec:
 
     - name: ml
       # Edit this line if IMMICH_VERSION in .env file changes
-      image: ghcr.io/immich-app/immich-machine-learning:v2-openvino
+      image: ghcr.io/immich-app/immich-machine-learning:v3-openvino
       envFrom:
         - configMapRef:
             name: env
