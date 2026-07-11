@@ -20,10 +20,9 @@ chmod -R o-rwx /opt/homelab/*
 find /opt/homelab -type d ! -path "/opt/homelab" ! -path "/opt/homelab/proxmox" ! -path "/opt/homelab/proxmox/*" -exec chmod 770 {} \;
 find /opt/homelab -type f ! -path "/opt/homelab/proxmox/*" ! -name "*.sh" -exec chmod 660 {} \;
 
-# Gateway container (100) runs bare-metal services (Caddy, Unbound) as non-root users (caddy, unbound).
-# They need read access to their configurations, so we set them to 755 for directories and 644 for files.
-find /opt/homelab/100-gateway -type d -exec chmod 755 {} \;
-find /opt/homelab/100-gateway -type f ! -name "*.sh" -exec chmod 644 {} \;
+# Find and execute local permission scripts in service directories
+find /opt/homelab -maxdepth 3 -name "permissions.sh" ! -path "/opt/homelab/proxmox/*" -exec bash {} \;
+
 
 # Adjust permissions for top-level mount points in /mnt (non-recursive to protect database ownerships)
 chown 100000:100000 /mnt/*
