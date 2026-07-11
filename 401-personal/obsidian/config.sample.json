@@ -1,0 +1,38 @@
+{
+    "peers": [
+        {
+            "type": "couchdb",
+            "name": "db-dev",
+            "url": "http://127.0.0.1:5984",
+            "database": "obsidian-dev",
+            "username": "",
+            "password": "",
+            "passphrase": "",
+            "obfuscatePassphrase": "",
+            "baseDir": "",
+            "useRemoteTweaks": true
+        },
+        {
+            "type": "storage",
+            "name": "local-dev",
+            "baseDir": "/data/obsidian/vaults/dev/"
+        },
+        {
+            "type": "couchdb",
+            "name": "db-doc",
+            "url": "http://127.0.0.1:5984",
+            "database": "obsidian-doc",
+            "username": "",
+            "password": "",
+            "passphrase": "",
+            "obfuscatePassphrase": "",
+            "baseDir": "",
+            "useRemoteTweaks": true
+        },
+        {
+            "type": "storage",
+            "name": "local-doc",
+            "baseDir": "/data/obsidian/vaults/doc/"
+        }
+    ]
+}

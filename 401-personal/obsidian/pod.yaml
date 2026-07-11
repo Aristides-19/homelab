@@ -18,6 +18,17 @@ spec:
         - name: db-config
           mountPath: /opt/couchdb/etc/local.d
           
+    - name: bridge
+      image: localhost/livesync-bridge:latest
+      volumeMounts:
+        - name: bridge-config
+          mountPath: /app/dat
+          readOnly: true
+        - name: vaults
+          mountPath: /data/obsidian/vaults
+        - name: bridge-state
+          mountPath: /home/deno/.local/share/deno
+          
   volumes:
     - name: db-data
       hostPath:
@@ -27,3 +38,15 @@ spec:
       hostPath:
         path: /data/obsidian/db/config
         type: Directory
+    - name: bridge-config
+      hostPath:
+        path: /opt/obsidian
+        type: Directory
+    - name: vaults
+      hostPath:
+        path: /data/obsidian/vaults
+        type: DirectoryOrCreate
+    - name: bridge-state
+      hostPath:
+        path: /data/obsidian/vaults/.deno
+        type: DirectoryOrCreate
