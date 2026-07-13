@@ -127,6 +127,11 @@
 		}
 	}
 
+	@hermes host hermes.{$DOMAIN}
+	handle @hermes {
+		reverse_proxy {$IP_PERSONAL}:8787
+	}
+
 	# Media LXC
 	@cap host cap.{$DOMAIN}
 	handle @cap {
