@@ -65,6 +65,12 @@ spec:
         requests:
           memory: 128Mi
 
+    - name: browser
+      image: localhost/obscura:stealth
+      resources:
+        limits:
+          memory: 256Mi
+
   volumes:
     - name: home
       hostPath:
