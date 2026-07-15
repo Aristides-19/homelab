@@ -24,7 +24,7 @@ spec:
             - --spider
             - http://127.0.0.1:3000/
         initialDelaySeconds: 30
-        periodSeconds: 15
+        periodSeconds: 30
         timeoutSeconds: 5
       resources:
         limits:
@@ -46,7 +46,7 @@ spec:
             - bun
             - -e
             - "const response = await fetch('http://127.0.0.1:3456/health'); process.exit(response.ok ? 0 : 1)"
-        initialDelaySeconds: 15
+        initialDelaySeconds: 30
         periodSeconds: 30
         timeoutSeconds: 5
 
@@ -89,8 +89,8 @@ spec:
             - /bin/sh
             - -c
             - mysqladmin ping -h localhost -u "$MYSQL_USER" -p"$MYSQL_PASSWORD"
-        initialDelaySeconds: 20
-        periodSeconds: 10
+        initialDelaySeconds: 30
+        periodSeconds: 60
       volumeMounts:
         - name: mysql-data
           mountPath: /var/lib/mysql
@@ -125,8 +125,8 @@ spec:
         httpGet:
           path: /minio/health/live
           port: 9000
-        initialDelaySeconds: 15
-        periodSeconds: 15
+        initialDelaySeconds: 30
+        periodSeconds: 60
       volumeMounts:
         - name: minio-data
           mountPath: /data

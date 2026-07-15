@@ -18,14 +18,6 @@ spec:
         - name: podman-socket
           mountPath: /var/run/docker.sock
           readOnly: true
-      livenessProbe:
-        exec:
-          command:
-            - "/dozzle"
-            - "healthcheck"
-        initialDelaySeconds: 5
-        periodSeconds: 5
-        failureThreshold: 5
 
   volumes:
     - name: podman-socket

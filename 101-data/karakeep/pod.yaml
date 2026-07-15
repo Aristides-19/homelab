@@ -21,8 +21,8 @@ spec:
             path: /signin
             port: 3000
             host: karakeep
-          initialDelaySeconds: 20
-          periodSeconds: 10
+          initialDelaySeconds: 30
+          periodSeconds: 30
           
     - name: chrome
       image: gcr.io/zenika-hub/alpine-chrome:124
@@ -52,7 +52,7 @@ spec:
             path: /health
             port: 7700
           initialDelaySeconds: 30
-          periodSeconds: 15
+          periodSeconds: 60
 
   volumes:
     - name: data

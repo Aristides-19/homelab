@@ -20,8 +20,8 @@ spec:
           httpGet:
             path: /api/server/ping
             port: 2283
-          initialDelaySeconds: 10
-          periodSeconds: 5
+          initialDelaySeconds: 30
+          periodSeconds: 30
       volumeMounts:
         - name: upload-location
           mountPath: /data
@@ -56,8 +56,8 @@ spec:
       livenessProbe:
         exec:
           command: ["redis-cli", "ping"]
-        initialDelaySeconds: 5
-        periodSeconds: 10
+        initialDelaySeconds: 30
+        periodSeconds: 60
 
     - name: database
       image: ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0@sha256:bcf63357191b76a916ae5eb93464d65c07511da41e3bf7a8416db519b40b1c23
@@ -88,8 +88,8 @@ spec:
             - /bin/sh
             - -c
             - pg_isready -d "$POSTGRES_DB" -U "$POSTGRES_USER"
-          initialDelaySeconds: 5
-          periodSeconds: 10
+        initialDelaySeconds: 30
+        periodSeconds: 60
       volumeMounts:
         - name: db-data
           mountPath: /var/lib/postgresql/data

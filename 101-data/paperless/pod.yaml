@@ -14,8 +14,8 @@ spec:
       livenessProbe:
         exec:
           command: ["redis-cli", "ping"]
-        initialDelaySeconds: 5
-        periodSeconds: 10
+        initialDelaySeconds: 30
+        periodSeconds: 60
           
     - name: db
       image: docker.io/library/postgres:18
@@ -44,8 +44,8 @@ spec:
             - /bin/sh
             - -c
             - pg_isready -d "$POSTGRES_DB" -U "$POSTGRES_USER"
-          initialDelaySeconds: 5
-          periodSeconds: 10
+        initialDelaySeconds: 30
+        periodSeconds: 60
 
     - name: webserver
       image: ghcr.io/paperless-ngx/paperless-ngx:2.20
@@ -69,8 +69,8 @@ spec:
           httpGet:
             path: /
             port: 8000
-          initialDelaySeconds: 30
-          periodSeconds: 5
+          initialDelaySeconds: 45
+          periodSeconds: 30
 
     - name: gpt
       image: ghcr.io/icereed/paperless-gpt:v0.25.1
