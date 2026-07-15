@@ -1,0 +1,154 @@
+model:
+  default: gemini-3.1-flash-lite
+  provider: gemini
+  base_url: https://generativelanguage.googleapis.com/v1beta
+fallback_providers:
+- provider: gemini
+  model: gemini-3.1-flash-lite
+agent:
+  max_turns: 60
+  verify_on_stop: false
+  verbose: false
+  reasoning_effort: medium
+terminal:
+  backend: local
+  cwd: .
+  timeout: 180
+  home_mode: auto
+  lifetime_seconds: 300
+browser:
+  inactivity_timeout: 120
+  cloud_provider: obscura
+  use_gateway: false
+tool_loop_guardrails:
+  warnings_enabled: true
+  hard_stop_enabled: false
+  warn_after:
+    exact_failure: 2
+    same_tool_failure: 3
+    idempotent_no_progress: 2
+  hard_stop_after:
+    exact_failure: 5
+    same_tool_failure: 8
+    idempotent_no_progress: 5
+compression:
+  enabled: true
+  threshold: 0.4
+  target_ratio: 0.2
+  protect_last_n: 20
+  protect_first_n: 3
+prompt_caching:
+  cache_ttl: 1h
+auxiliary:
+  vision:
+    provider: gemini
+    model: gemini-3.1-flash-lite
+memory:
+  memory_enabled: true
+  user_profile_enabled: true
+  memory_char_limit: 2200
+  user_char_limit: 1375
+  nudge_interval: 10
+  flush_min_turns: 6
+delegation:
+  max_iterations: 50
+skills:
+  loading: lazy
+  creation_nudge_interval: 15
+  disabled:
+  - dogfood
+  - yuanbao
+  - claude-code
+  - codex
+  - apple
+  - computer-use
+  - data-science
+  - email
+  - github
+  - mlops
+  - smart-home
+  - architecture-diagram
+  - ascii-art
+  - ascii-video
+  - baoyu-infographic
+  - claude-design
+  - comfyui
+  - design-md
+  - excalidraw
+  - manim-video
+  - p5js
+  - popular-web-designs
+  - pretext
+  - sketch
+  - songwriting-and-ai-music
+  - touchdesigner-mcp
+  - jupyter-live-kernel
+  - himalaya
+  - codebase-inspection
+  - github-auth
+  - github-code-review
+  - github-issues
+  - github-pr-workflow
+  - github-repo-management
+  - gif-search
+  - heartmula
+  - songsee
+  - youtube-content
+  - audiocraft-audio-generation
+  - evaluating-llms-harness
+  - huggingface-hub
+  - llama-cpp
+  - segment-anything-model
+  - serving-llms-vllm
+  - weights-and-biases
+  - airtable
+  - maps
+  - notion
+  - ocr-and-documents
+  - teams-meeting-pipeline
+  - powerpoint
+  - petdex
+  - polymarket
+  - llm-wiki
+  - research-paper-writing
+  - blogwatcher
+  - arxiv
+  - openhue
+  - xurl
+  - test-driven-development
+  - systematic-debugging
+  - spike
+  - simplify-code
+  - requesting-code-review
+  - python-debugpy
+  - plan
+  - node-inspect-debugger
+  - nano-pdf
+  - google-workspace
+  - hermes-agent
+  - opencode
+  - humanizer
+code_execution:
+  timeout: 300
+  max_tool_calls: 50
+streaming:
+  enabled: true
+session_reset:
+  mode: both
+  idle_minutes: 1440
+  at_hour: 4
+group_sessions_per_user: true
+platform_toolsets:
+  api_server:
+  - code_execution
+  - cronjob
+  - file
+  - memory
+  - skills
+  - terminal
+  - browser
+plugins:
+  enabled:
+  - browser-obscura
+  disabled: []
+_config_version: 33
