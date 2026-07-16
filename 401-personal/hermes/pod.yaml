@@ -49,6 +49,8 @@ spec:
           value: /home/hermes/.hermes
         - name: UV_CACHE_DIR
           value: /home/hermes/.hermes/cache/uv
+        - name: TMPDIR
+          value: /workspace/obsidian/.obsidian/tmp
       envFrom:
         - configMapRef:
             name: env
