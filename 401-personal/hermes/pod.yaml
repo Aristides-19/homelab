@@ -13,7 +13,7 @@ metadata:
 spec:
   containers:
     - name: webui
-      image: ghcr.io/nesquena/hermes-webui:0.52.0
+      image: ghcr.io/nesquena/hermes-webui:0.52.41
       ports:
         - containerPort: 8787
           hostPort: 8787
