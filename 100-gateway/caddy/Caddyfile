@@ -132,6 +132,14 @@
 		reverse_proxy {$IP_PERSONAL}:8787
 	}
 
+	@hermes-proxy host hermes-proxy.{$DOMAIN}
+	handle @hermes-proxy {
+		import only_admin
+		reverse_proxy {$IP_PERSONAL}:9090 {
+			flush_interval -1
+		}
+	}
+
 	# Media LXC
 	@cap host cap.{$DOMAIN}
 	handle @cap {

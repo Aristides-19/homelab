@@ -73,6 +73,24 @@ spec:
         limits:
           memory: 256Mi
 
+    - name: proxy
+      image: localhost/agy-proxy:latest
+      ports:
+        - containerPort: 9090
+          hostPort: 9090
+      envFrom:
+        - configMapRef:
+            name: env.proxy
+      volumeMounts:
+        - name: home
+          mountPath: /root/.config/antigravity-proxy
+          subPath: .agy-proxy
+      resources:
+        limits:
+          memory: 256Mi
+        requests:
+          memory: 64Mi
+
   volumes:
     - name: home
       hostPath:
@@ -85,4 +103,3 @@ spec:
     - name: agent-src
       persistentVolumeClaim:
         claimName: hermes-agent-src
-

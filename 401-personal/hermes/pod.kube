@@ -5,6 +5,7 @@ After=network-online.target
 [Kube]
 Yaml=/opt/hermes/pod.yaml
 ConfigMap=/opt/hermes/env.yaml
+ConfigMap=/opt/hermes/env.proxy.yaml
 
 [Install]
 WantedBy=multi-user.target
