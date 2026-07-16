@@ -1,6 +1,7 @@
 model:
   default: gemini-pro-agent
   provider: anthropic
+  base_url: http://127.0.0.1:9090/v1
 agent:
   max_turns: 60
   verify_on_stop: false
