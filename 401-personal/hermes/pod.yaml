@@ -1,48 +1,14 @@
-# Note: First-time setup has a known Podman race condition where the webui container
-# starts and runs its dependency check before the gateway container finishes populating
-# the shared named volume 'hermes-agent-src'.
-# If you see "ModuleNotFoundError" or "reduced functionality" warnings in the WebUI logs,
-# resolve it by running the following commands in the LXC:
-#   podman exec hermes-webui rm -f /app/venv/.deps_installed
-#   podman restart hermes-webui
-
 apiVersion: v1
 kind: Pod
 metadata:
   name: hermes
 spec:
   containers:
-    - name: webui
-      image: ghcr.io/nesquena/hermes-webui:0.52.41
-      ports:
-        - containerPort: 8787
-          hostPort: 8787
-      env:
-        - name: HERMES_HOME
-          value: /home/hermeswebui/.hermes
-        - name: MALLOC_ARENA_MAX
-          value: "2"
-        - name: UV_CACHE_DIR
-          value: /home/hermeswebui/.hermes/cache/uv
-      envFrom:
-        - configMapRef:
-            name: env
-      volumeMounts:
-        - name: home
-          mountPath: /home/hermeswebui/.hermes
-        - name: agent-src
-          mountPath: /home/hermeswebui/.hermes/hermes-agent
-          readOnly: true
-        - name: obsidian
-          mountPath: /workspace/obsidian
-      resources:
-        limits:
-          memory: 768Mi
-        requests:
-          memory: 256Mi
-
     - name: gateway
       image: docker.io/nousresearch/hermes-agent:v2026.7.7
+      ports:
+        - containerPort: 9119
+          hostPort: 9119
       args: ["gateway", "run"]
       env:
         - name: HERMES_HOME
@@ -57,8 +23,6 @@ spec:
       volumeMounts:
         - name: home
           mountPath: /home/hermes/.hermes
-        - name: agent-src
-          mountPath: /opt/hermes
         - name: obsidian
           mountPath: /workspace/obsidian
       resources:
@@ -100,6 +64,3 @@ spec:
       hostPath:
         path: /data/obsidian/vaults/dev
         type: Directory
-    - name: agent-src
-      persistentVolumeClaim:
-        claimName: hermes-agent-src

@@ -129,15 +129,15 @@
 
 	@hermes host hermes.{$DOMAIN}
 	handle @hermes {
-		reverse_proxy {$IP_PERSONAL}:8787
+		reverse_proxy {$IP_PERSONAL}:9119 {
+			flush_interval -1
+		}
 	}
 
 	@hermes-proxy host hermes-proxy.{$DOMAIN}
 	handle @hermes-proxy {
 		import only_admin
-		reverse_proxy {$IP_PERSONAL}:9090 {
-			flush_interval -1
-		}
+		reverse_proxy {$IP_PERSONAL}:9090
 	}
 
 	# Media LXC
