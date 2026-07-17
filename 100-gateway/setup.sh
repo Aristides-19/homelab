@@ -2,6 +2,7 @@
 
 echo "Setting up NAT..."
 iptables -t nat -A POSTROUTING -s 10.0.0.0/16 -o eth0 -j MASQUERADE
+iptables -t nat -A POSTROUTING -s 10.0.0.0/16 -o tailscale0 -j MASQUERADE
 
 echo "Saving iptables rules..."
 apt update && apt upgrade -y && apt install -y iptables-persistent && netfilter-persistent save
