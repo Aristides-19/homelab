@@ -153,7 +153,6 @@ platform_toolsets:
     - clarify
     - cronjob
     - file
-    - kanban
     - memory
     - skills
     - terminal
@@ -162,6 +161,7 @@ plugins:
     - browser-obscura
     - dashboard_auth/basic
     - telegram-platform
+    - whatsapp-platform
   disabled:
     - browser/browser_use
     - browser/browserbase
@@ -226,9 +226,7 @@ plugins:
     - platforms/slack
     - platforms/sms
     - platforms/teams
-    - platforms/telegram
     - platforms/wecom
-    - platforms/whatsapp
     - security-guidance
     - spotify
     - teams_pipeline
