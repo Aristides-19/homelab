@@ -1,0 +1,10 @@
+[Unit]
+Description=Minecraft Server (Podman KUBE)
+After=network-online.target
+
+[Kube]
+Yaml=/opt/minecraft/pod.yaml
+ConfigMap=/opt/minecraft/env.yaml
+
+[Install]
+WantedBy=multi-user.target
