@@ -1,0 +1,5 @@
+http://googol.ts:8080 {
+	reverse_proxy https://api.exa.ai {
+		header_up Host {upstream_hostport}
+	}
+}

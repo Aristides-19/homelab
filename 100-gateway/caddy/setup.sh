@@ -16,7 +16,7 @@ if ! command -v caddy &> /dev/null; then
   apt-get install -y caddy
 fi
 
-# 2. Check if Caddy already has the Cloudflare DNS module installed
+# Check if Caddy already has the Cloudflare DNS module installed
 if command -v caddy &>/dev/null && caddy list-modules | grep -q "dns.providers.cloudflare"; then
   echo "Caddy is already installed with the Cloudflare DNS module. Skipping build."
 else
