@@ -1,0 +1,17 @@
+{
+  "permission": {
+    "webfetch": "allow",
+    "edit": "ask",
+    "bash": "ask",
+    "read": {
+      ".env": "deny",
+      ".env.*": "deny",
+      "env.yaml": "deny",
+      "env.*.yaml": "deny",
+      ".env.sample": "allow",
+      ".env.*.sample": "allow",
+      "env.sample.yaml": "allow",
+      "env.*.sample.yaml": "allow"
+    }
+  }
+}
