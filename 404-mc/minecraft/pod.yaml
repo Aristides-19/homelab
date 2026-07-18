@@ -8,6 +8,10 @@ spec:
       image: docker.io/itzg/minecraft-server:latest
       tty: true
       stdin: true
+      securityContext:
+        capabilities:
+          add:
+            - NET_RAW
       envFrom:
         - configMapRef:
             name: env
@@ -21,6 +25,9 @@ spec:
           mountPath: /mods
         - name: config
           mountPath: /config
+        - name: knockd-config
+          mountPath: /tmp/knockd-config.cfg
+          readOnly: true
           
   volumes:
     - name: data
@@ -35,3 +42,7 @@ spec:
       hostPath:
         path: /data/minecraft/config
         type: DirectoryOrCreate
+    - name: knockd-config
+      hostPath:
+        path: /opt/minecraft/knockd-config.cfg
+        type: File
