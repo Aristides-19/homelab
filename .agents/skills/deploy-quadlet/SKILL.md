@@ -26,8 +26,8 @@ Service directory `/opt/homelab/[id]-[hostname]/[service-name]/` MUST contain:
 
 1. **Create Directory**: Setup service folder, files (`pod.yaml`, `pod.kube`, `env.sample.yaml`, `setup.sh`).
 2. **Mountpoint**: Edit `/etc/pve/lxc/[id].conf` Proxmox host. Map host service folder LXC path (e.g. `mp0: /opt/homelab/101-data/karakeep,mp=/opt/karakeep`).
-3. **Sync Config**: Run `proxmox/config/update.sh` on host to copy host configs repo.
-4. **Permissions**: Run `proxmox/permissions.sh` Proxmox host. Fixes unprivileged LXC ownership (`100000:100000`).
+3. **Sync Config**: Run `host/config/update.sh` on host to copy host configs repo.
+4. **Permissions**: Run `host/permissions.sh` Proxmox host. Fixes unprivileged LXC ownership (`100000:100000`).
 5. **Start Service**: Access LXC. Execute service `setup.sh`. Run `systemctl daemon-reload && systemctl start [service-name]`.
 
 ## References

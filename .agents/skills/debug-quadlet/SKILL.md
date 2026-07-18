@@ -35,7 +35,7 @@ If container logs show database lock, write errors, or "Permission Denied":
 - Check directory owners inside LXC:
   `pct exec [id] -- ls -la /opt/[service-name]` or `/data`
 - Correct ownership from Proxmox host:
-  Run `proxmox/permissions.sh` on host to restore `100000:100000` ownership.
+  Run `host/permissions.sh` on host to restore `100000:100000` ownership.
 
 ### 4. Network & Port Conflicts
 If service is running but inaccessible:

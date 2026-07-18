@@ -25,5 +25,5 @@
 - **418-home:** Home Assistant.
 
 ## Hardware & Host Configuration
-- **UPS Monitoring:** Configured on host using Network UPS Tools (NUT). See `proxmox/nut/README.md`.
+- **UPS Monitoring:** Configured on host using Network UPS Tools (NUT). See `host/nut/README.md`.
 

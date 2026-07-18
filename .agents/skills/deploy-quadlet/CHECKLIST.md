@@ -6,8 +6,8 @@
 - [ ] Secrets/sensitive data NOT in template. Put secrets ONLY in gitignored `env.yaml`.
 - [ ] Proxmox host `/etc/pve/lxc/[id].conf` has mountpoint mapping host directory `/opt/[service-name]`.
 - [ ] For important data/dbs: verify mountpoint `mp[N]` map host `/mnt/[hostname]` to `/data` in LXC.
-- [ ] Config copy synced: run `proxmox/config/update.sh` on Proxmox host.
-- [ ] Permissions fixed: run `proxmox/permissions.sh` Proxmox host. Checks ownership (`100000:100000`).
+- [ ] Config copy synced: run `host/config/update.sh` on Proxmox host.
+- [ ] Permissions fixed: run `host/permissions.sh` Proxmox host. Checks ownership (`100000:100000`).
 
 ## During Deployment
 - [ ] Run commands inside LXC using Proxmox host `pct exec [id] -- [command]`.

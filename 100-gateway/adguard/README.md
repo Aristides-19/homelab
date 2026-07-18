@@ -1,3 +1,0 @@
-- Use port `53`.
-- Manually write DNS rewrites on AdGuard to LXC internal ips.
-- Prefer DNS over HTTPS upstream such as `https://cloudflare-dns.com/dns-query`.

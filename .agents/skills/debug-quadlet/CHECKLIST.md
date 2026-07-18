@@ -16,7 +16,7 @@ Use this checklist step-by-step to isolate and fix service failures.
 
 ## Step 3: Permission Checks
 - [ ] Inspect permissions of mounted directories: `pct exec [id] -- ls -la /opt/[service-name]`.
-- [ ] If permissions are not `100000:100000` (or `root:root` where required), run `proxmox/permissions.sh` on the Proxmox host.
+- [ ] If permissions are not `100000:100000` (or `root:root` where required), run `host/permissions.sh` on the Proxmox host.
 - [ ] Verify that directories required by `pod.yaml` volumes exist on the host (e.g. `/data/<service-name>`).
 
 ## Step 4: Network Verification

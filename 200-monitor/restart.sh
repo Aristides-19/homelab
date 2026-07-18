@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Configuration
-CONFIG_DIR="/opt/homelab/proxmox/config"
+CONFIG_DIR="/opt/homelab/host/config"
 MONITOR_LXC_ID="200"
 
 echo "=== Restarting Dozzle and Dozzle Agents ==="

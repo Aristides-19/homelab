@@ -5,7 +5,7 @@
 - Host-level service definition, LXC container settings, networking.
 
 ## Proxmox Config
-- Directory `proxmox/config/` holds LXC configurations `[id].conf`.
+- Directory `host/config/` holds LXC configurations `[id].conf`.
 - Configuration files NOT symlinks.
 - ALWAYS update manually running `update.sh` AFTER edit original Proxmox `/etc/pve/lxc/[id].conf` configuration.
 
@@ -26,7 +26,7 @@
 ## Mountpoints
 - Each service directory mounted from Proxmox host inside corresponding LXC.
 - Enables Proxmox host modify configs, immediately reflected inside LXC, vice versa.
-- ALWAYS run `proxmox/permissions.sh` Proxmox host after edit/add files. Restores ownership (`100000:100000`) for unprivileged LXCs.
+- ALWAYS run `host/permissions.sh` Proxmox host after edit/add files. Restores ownership (`100000:100000`) for unprivileged LXCs.
 
 ## Internal Network & Gateway
 - LXC `100-gateway` acts as subnet router.
