@@ -33,12 +33,6 @@ spec:
         requests:
           memory: 256Mi
 
-    - name: browser
-      image: localhost/obscura:stealth
-      resources:
-        limits:
-          memory: 256Mi
-
     - name: proxy
       image: localhost/agy-proxy:latest
       ports:
