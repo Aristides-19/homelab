@@ -1,10 +1,8 @@
 #!/bin/bash
 
 # ---- SETUP ----
-# - Disable key expiry for this machine and VM.
-# - Set corresponding IPs for caddy
-# - Approve/Auto-accept the exit node and subnet routes.
-# - Set the Tailnet Split DNS to point this for "lxc" and "arperez.dev" domains.
+# - Disable key expiry for this machine.
+# - Approve exit node
 
 # Check if Tailscale is installed
 if ! command -v tailscale &> /dev/null; then
@@ -21,6 +19,6 @@ systemctl enable --now tailscaled
 # Bring Tailscale up with specified routes and settings
 echo "Configuring Tailscale..."
 tailscale up \
-  --advertise-routes=10.0.0.0/16,192.168.0.0/24 \
+  --accept-routes \
   --advertise-exit-node \
-  --accept-dns=false
+  --accept-dns
