@@ -28,6 +28,11 @@ spec:
         - name: knockd-config
           mountPath: /tmp/knockd-config.cfg
           readOnly: true
+    - name: playit
+      image: ghcr.io/playit-cloud/playit-agent:0.17
+      envFrom:
+        - configMapRef:
+            name: env.playit
           
   volumes:
     - name: data
