@@ -5,6 +5,7 @@ After=network-online.target
 [Kube]
 Yaml=/opt/minecraft/pod.yaml
 ConfigMap=/opt/minecraft/env.yaml
+ConfigMap=/opt/minecraft/env.playit.yaml
 
 [Install]
 WantedBy=multi-user.target
