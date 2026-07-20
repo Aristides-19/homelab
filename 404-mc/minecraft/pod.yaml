@@ -5,7 +5,7 @@ metadata:
 spec:
   containers:
     - name: server
-      image: docker.io/itzg/minecraft-server:latest
+      image: docker.io/itzg/minecraft-server:java17
       tty: true
       stdin: true
       securityContext:
