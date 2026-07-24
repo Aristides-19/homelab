@@ -147,6 +147,12 @@
 			flush_interval -1
 		}
 	}
+	@jelly host jelly.{$DOMAIN}
+	handle @jelly {
+		reverse_proxy {$IP_MEDIA}:8096 {
+			flush_interval -1
+		}
+	}
 	@s3 host s3.{$DOMAIN}
 	handle @s3 {
 		reverse_proxy {$IP_MEDIA}:9000 {
