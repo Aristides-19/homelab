@@ -1,0 +1,10 @@
+[Unit]
+Description=Jellyfin Server (Podman KUBE)
+After=network-online.target
+
+[Kube]
+Yaml=/opt/jellyfin/pod.yaml
+ConfigMap=/opt/jellyfin/env.yaml
+
+[Install]
+WantedBy=multi-user.target
