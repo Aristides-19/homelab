@@ -5,9 +5,9 @@
 - Host-level service definition, LXC container settings, networking.
 
 ## Proxmox Config
-- Directory `host/config/` holds LXC configurations `[id].conf`.
-- Configuration files NOT symlinks.
-- ALWAYS update manually running `update.sh` AFTER edit original Proxmox `/etc/pve/lxc/[id].conf` configuration.
+- Directory `host/config/` holds snapshots of LXC configurations `[id].conf`.
+- Configuration files are NOT symlinks.
+- ALWAYS edit the live Proxmox configuration `/etc/pve/lxc/[id].conf` first, then run `host/config/update.sh` to copy the live configs back into `host/config/` in the repository.
 
 ## LXC Folders
 - Folders named `[id]-[hostname]` (example: `100-gateway` matches `100.conf` hostname `gateway`).
