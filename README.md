@@ -19,7 +19,7 @@
 - **100-gateway:** Caddy (Reverse Proxy), Tailscale (VPN), Cloudflare Tunnel, AdGuard Home (DNS).
 - **101-data:** Immich, Karakeep, Paperless.
 - **200-monitor:** Uptime Kuma, Dozzle (agents in each LXC).
-- **206-media:** Cap.so.
+- **206-media:** Jellyfin, qBittorrent.
 - **401-personal:** Vaultwarden, IT Tools, Obsidian Live Sync, Hermes Agent.
 - **403-backup:** Restic (cronjobs + Backblaze S3).
 - **418-home:** Home Assistant.
