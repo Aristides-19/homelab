@@ -142,12 +142,6 @@
 	}
 
 	# Media LXC
-	@cap host cap.{$DOMAIN}
-	handle @cap {
-		reverse_proxy {$IP_MEDIA}:3000 {
-			flush_interval -1
-		}
-	}
 	@jelly host jelly.{$DOMAIN}
 	handle @jelly {
 		reverse_proxy {$IP_MEDIA}:8096 {
@@ -158,17 +152,6 @@
 	handle @qb {
 		import only_admin
 		reverse_proxy {$IP_MEDIA}:8080
-	}
-	@s3 host s3.{$DOMAIN}
-	handle @s3 {
-		reverse_proxy {$IP_MEDIA}:9000 {
-			flush_interval -1
-		}
-	}
-	@minio host minio.{$DOMAIN}
-	handle @minio {
-		import only_admin
-		reverse_proxy {$IP_MEDIA}:9001
 	}
 
 	# Home LXC
