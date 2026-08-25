@@ -3,3 +3,18 @@ http://googol.ts:8080 {
 		header_up Host {upstream_hostport}
 	}
 }
+
+https://jelly.arperez.dev {
+	encode zstd gzip
+
+	header {
+		X-Content-Type-Options "nosniff"
+		X-XSS-Protection "1; mode=block"
+		Strict-Transport-Security "max-age=31536000;"
+		defer
+	}
+
+	reverse_proxy 10.0.2.6:8096 {
+		flush_interval -1
+	}
+}
