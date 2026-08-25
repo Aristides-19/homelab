@@ -4,7 +4,6 @@ enable: 1
 
 [RULES]
 
-IN ACCEPT -source +dc/admins -p tcp -dport 25565 -log nolog # Minecraft Server
 GROUP ping
 IN Web(ACCEPT) -log nolog
 IN DNS(ACCEPT) -log nolog
