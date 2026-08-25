@@ -1,0 +1,10 @@
+[Unit]
+Description=qBittorrent (Podman KUBE)
+After=network-online.target
+
+[Kube]
+Yaml=/opt/qbittorrent/pod.yaml
+ConfigMap=/opt/qbittorrent/env.yaml
+
+[Install]
+WantedBy=multi-user.target
