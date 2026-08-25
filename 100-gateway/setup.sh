@@ -4,9 +4,6 @@ echo "Setting up NAT..."
 iptables -t nat -A POSTROUTING -s 10.0.0.0/16 -o eth0 -j MASQUERADE
 iptables -t nat -A POSTROUTING -s 10.0.0.0/16 -o tailscale0 -j MASQUERADE
 
-echo "Setting up Minecraft NAT..."
-iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 25565 -j DNAT --to-destination 10.0.4.4:25565
-
 echo "Saving iptables rules..."
 apt update && apt upgrade -y && apt install -y iptables-persistent && netfilter-persistent save
 
