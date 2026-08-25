@@ -54,13 +54,6 @@ Host media-lxc
     ProxyJump gateway-lxc
     IdentityFile ~/.ssh/Media.pub
     IdentitiesOnly yes
-Host mc-lxc
-    HostName mc.lxc
-    User root
-    Port 22
-    ProxyJump gateway-lxc
-    IdentityFile ~/.ssh/MC.pub
-    IdentitiesOnly yes
 Host home-lxc
     HostName home.lxc
     User root

@@ -132,7 +132,6 @@ if [ -f "$CADDY_ENV" ]; then
     add_rewrite "media.lxc" "${IP_MEDIA}"
     add_rewrite "backup.lxc" "${IP_BACKUP}"
     add_rewrite "personal.lxc" "${IP_PERSONAL}"
-    add_rewrite "mc.lxc" "${IP_MC}"
     add_rewrite "home.lxc" "${IP_HOME}"
     
     # Tailscale googol rewrite
