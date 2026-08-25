@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: qbittorrent
+spec:
+  containers:
+    - name: server
+      image: lscr.io/linuxserver/qbittorrent:5.2.3
+      envFrom:
+        - configMapRef:
+            name: env
+      ports:
+        - containerPort: 8080
+          hostPort: 8080
+        - containerPort: 6881
+          hostPort: 6881
+        - containerPort: 6881
+          hostPort: 6881
+          protocol: UDP
+      livenessProbe:
+        httpGet:
+          path: /
+          port: 8080
+        initialDelaySeconds: 30
+        periodSeconds: 30
+        timeoutSeconds: 5
+      volumeMounts:
+        - name: config
+          mountPath: /config
+        - name: downloads
+          mountPath: /downloads
+      resources:
+        limits:
+          memory: "512Mi"
+
+  volumes:
+    - name: config
+      hostPath:
+        path: /data/qbittorrent/config
+        type: DirectoryOrCreate
+    - name: downloads
+      hostPath:
+        path: /data/jellyfin/media
+        type: DirectoryOrCreate

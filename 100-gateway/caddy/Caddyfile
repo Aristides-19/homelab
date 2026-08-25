@@ -129,6 +129,7 @@
 
 	@hermes host hermes.{$DOMAIN}
 	handle @hermes {
+		import only_admin
 		reverse_proxy {$IP_PERSONAL}:9119 {
 			flush_interval -1
 		}
@@ -152,6 +153,11 @@
 		reverse_proxy {$IP_MEDIA}:8096 {
 			flush_interval -1
 		}
+	}
+	@qb host qb.{$DOMAIN}
+	handle @qb {
+		import only_admin
+		reverse_proxy {$IP_MEDIA}:8080
 	}
 	@s3 host s3.{$DOMAIN}
 	handle @s3 {
