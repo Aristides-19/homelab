@@ -1,0 +1,11 @@
+[Unit]
+Description=Komga Server (Podman KUBE)
+After=network-online.target
+
+[Kube]
+Yaml=/opt/komga/pod.yaml
+ConfigMap=/opt/komga/env.yaml
+
+[Install]
+WantedBy=multi-user.target
+
