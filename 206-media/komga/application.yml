@@ -1,0 +1,53 @@
+komga:
+  # Real-time event listener to auto-identify newly added comics
+  eventListener:
+    enabled: true
+    metadataLibraryFilter: []
+    metadataSeriesExcludeFilter: []
+    notificationsLibraryFilter: []
+
+  # Settings for Western comics (DC, Marvel, Image, Dark Horse, etc.)
+  metadataUpdate:
+    default:
+      libraryType: "COMIC"         # Optimized for comic issue/volume numbering
+      updateModes: [ API ]         # API: updates Komga database directly
+                                   # (Add COMIC_INFO if you want it to write ComicInfo.xml into .cbz files)
+      aggregate: false             # Aggregate metadata from multiple providers
+      mergeTags: false
+      mergeGenres: false
+      bookCovers: false            # false: let Komga extract and use the first page of each .cbz directly
+      seriesCovers: false          # false: fetch the overall series/collection poster from metadata provider
+      overrideExistingCovers: false # false: never replace covers already extracted/present in Komga
+      overrideComicInfo: false     # Do not overwrite existing ComicInfo.xml
+      lockCovers: false
+
+      postProcessing:
+        seriesTitle: false         # false: keep disk folder name as series title in Komga
+        alternativeSeriesTitles: true # Add alternative titles to Komga for searchability
+        alternativeSeriesTitleLanguages:
+          - "en"
+          - "es"
+        orderBooks: true           # Automatically order issues/books by volume and issue number
+        scoreTagName: "score"      # Add a tag with rating score (e.g. "score: 9")
+        originalPublisherTagName: "Original Publisher"
+
+# Metadata Providers for Comics
+metadataProviders:
+  # ComicVine: The primary provider for Western comics (Marvel, DC, Image, Dark Horse, etc.)
+  # Free API key for personal use available at: https://comicvine.gamespot.com/api/
+  comicVineSearchLimit: 10
+
+  defaultProviders:
+    comicVine:
+      enabled: true
+      priority: 1
+    mangaUpdates:
+      enabled: false
+    mal:
+      enabled: false
+    bookWalker:
+      enabled: false
+    mangaDex:
+      enabled: false
+    mangaBaka:
+      enabled: false

@@ -6,6 +6,9 @@ spec:
   containers:
     - name: server
       image: ghcr.io/gotson/komga:1.x
+      env:
+        - name: JAVA_TOOL_OPTIONS
+          value: "-XX:MaxRAMPercentage=75"
       envFrom:
         - configMapRef:
             name: env
@@ -30,6 +33,26 @@ spec:
         requests:
           memory: "256Mi"
 
+    - name: komf
+      image: docker.io/sndxr/komf:1.7.1
+      env:
+        - name: JAVA_TOOL_OPTIONS
+          value: "-XX:+UnlockExperimentalVMOptions -XX:+UseShenandoahGC -XX:ShenandoahGCHeuristics=compact -XX:ShenandoahGuaranteedGCInterval=3600000 -XX:TrimNativeHeapInterval=3600000"
+      envFrom:
+        - configMapRef:
+            name: env
+      ports:
+        - containerPort: 8085
+          hostPort: 8085
+      volumeMounts:
+        - name: komf-config
+          mountPath: /config
+      resources:
+        limits:
+          memory: "512Mi"
+        requests:
+          memory: "128Mi"
+
   volumes:
     - name: config
       hostPath:
@@ -39,4 +62,7 @@ spec:
       hostPath:
         path: /data/komga/data
         type: DirectoryOrCreate
-
+    - name: komf-config
+      hostPath:
+        path: /data/komga/komf
+        type: DirectoryOrCreate
