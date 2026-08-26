@@ -157,6 +157,11 @@
 	handle @komga {
 		reverse_proxy {$IP_MEDIA}:25600
 	}
+	@komf host komf.{$DOMAIN}
+	handle @komf {
+		import only_admin
+		reverse_proxy {$IP_MEDIA}:8085
+	}
 
 	# Home LXC
 	@ha host ha.{$DOMAIN}
