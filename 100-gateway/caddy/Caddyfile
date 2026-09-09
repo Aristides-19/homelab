@@ -162,6 +162,11 @@
 		import only_admin
 		reverse_proxy {$IP_MEDIA}:8085
 	}
+	@kapowarr host kapowarr.{$DOMAIN}
+	handle @kapowarr {
+		import only_admin
+		reverse_proxy {$IP_MEDIA}:5656
+	}
 
 	# Home LXC
 	@ha host ha.{$DOMAIN}
