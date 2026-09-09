@@ -8,7 +8,7 @@ spec:
 
   containers:
     - name: server
-      image: ghcr.io/jellyfin/jellyfin:10
+      image: ghcr.io/jellyfin/jellyfin:12
       envFrom:
         - configMapRef:
             name: env
