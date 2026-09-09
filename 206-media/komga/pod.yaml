@@ -53,6 +53,27 @@ spec:
         requests:
           memory: "128Mi"
 
+    - name: kapowarr
+      image: docker.io/mrcas/kapowarr:v1.3.1
+      envFrom:
+        - configMapRef:
+            name: env
+      ports:
+        - containerPort: 5656
+          hostPort: 5656
+      volumeMounts:
+        - name: kapowarr-db
+          mountPath: /app/db
+        - name: temp-downloads
+          mountPath: /app/temp_downloads
+        - name: data
+          mountPath: /comics
+      resources:
+        limits:
+          memory: "512Mi"
+        requests:
+          memory: "128Mi"
+
   volumes:
     - name: config
       hostPath:
@@ -65,4 +86,12 @@ spec:
     - name: komf-config
       hostPath:
         path: /data/komga/komf
+        type: DirectoryOrCreate
+    - name: kapowarr-db
+      hostPath:
+        path: /data/komga/kapowarr
+        type: DirectoryOrCreate
+    - name: temp-downloads
+      hostPath:
+        path: /data/komga/temp-downloads
         type: DirectoryOrCreate
