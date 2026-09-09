@@ -3,10 +3,11 @@
 # Configuration
 CONFIG_DIR="/opt/homelab/host/config"
 MONITOR_LXC_ID="200"
+IMAGE_NAME="ghcr.io/amir20/dozzle:v10"
 
-echo "=== Restarting Dozzle and Dozzle Agents ==="
+echo "=== Updating & Restarting Dozzle and Dozzle Agents ==="
 
-# 1. Restart dozzle-agent in all LXCs using it
+# 1. Update and restart dozzle-agent in all LXCs using it
 echo "Searching for LXCs using dozzle-agent..."
 
 for conf_file in "$CONFIG_DIR"/*.conf; do
@@ -24,9 +25,11 @@ for conf_file in "$CONFIG_DIR"/*.conf; do
     # Check if the LXC is running
     status=$(pct status "$lxc_id" 2>/dev/null)
     if [[ "$status" == *"status: running"* ]]; then
-      echo "  LXC $lxc_id is running. Restarting dozzle-agent..."
+      echo "  LXC $lxc_id is running. Pulling latest image..."
+      pct exec "$lxc_id" -- podman pull "$IMAGE_NAME"
+      echo "  Restarting dozzle-agent..."
       if pct exec "$lxc_id" -- systemctl restart dozzle-agent; then
-        echo "  [OK] dozzle-agent restarted in LXC $lxc_id"
+        echo "  [OK] dozzle-agent updated and restarted in LXC $lxc_id"
       else
         echo "  [ERROR] Failed to restart dozzle-agent in LXC $lxc_id"
       fi
@@ -36,12 +39,15 @@ for conf_file in "$CONFIG_DIR"/*.conf; do
   fi
 done
 
-# 2. Restart dozzle in the monitor LXC
-echo "Restarting dozzle in monitor LXC ($MONITOR_LXC_ID)..."
+# 2. Update and restart dozzle in the monitor LXC
+echo "Updating and restarting dozzle in monitor LXC ($MONITOR_LXC_ID)..."
 status=$(pct status "$MONITOR_LXC_ID" 2>/dev/null)
 if [[ "$status" == *"status: running"* ]]; then
+  echo "  Pulling latest image in monitor LXC $MONITOR_LXC_ID..."
+  pct exec "$MONITOR_LXC_ID" -- podman pull "$IMAGE_NAME"
+  echo "  Restarting dozzle..."
   if pct exec "$MONITOR_LXC_ID" -- systemctl restart dozzle; then
-    echo "  [OK] dozzle restarted in LXC $MONITOR_LXC_ID"
+    echo "  [OK] dozzle updated and restarted in LXC $MONITOR_LXC_ID"
   else
     echo "  [ERROR] Failed to restart dozzle in LXC $MONITOR_LXC_ID"
   fi
