@@ -4,7 +4,7 @@ metadata:
   name: immich
 spec:
   securityContext:
-    supplementalGroups: [44, 993]
+    supplementalGroups: [993]
 
   containers:
     - name: server
@@ -30,7 +30,6 @@ spec:
           readOnly: true
       resources:
         limits:
-          podman.io/device=/dev/dri/card1: 1
           podman.io/device=/dev/dri/renderD128: 1
 
     - name: ml
@@ -48,7 +47,6 @@ spec:
           value: "300"
       resources:
         limits:
-          podman.io/device=/dev/dri/card1: 1
           podman.io/device=/dev/dri/renderD128: 1
 
     - name: redis
