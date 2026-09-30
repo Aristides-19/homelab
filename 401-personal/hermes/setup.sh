@@ -2,6 +2,12 @@
 
 # Create persistent configuration directory
 mkdir -p /data/hermes/dev
+
+# Copy config.yaml
+if [ -f /opt/hermes/config.yaml ]; then
+    cp -f /opt/hermes/config.yaml /data/hermes/dev/config.yaml
+fi
+
 # Set ownership to container user (UID 1993)
 chown -R 1993:1993 /data/hermes/dev
 

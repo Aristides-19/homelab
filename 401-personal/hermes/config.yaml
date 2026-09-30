@@ -13,6 +13,8 @@ terminal:
   timeout: 180
   home_mode: auto
   lifetime_seconds: 300
+web:
+  backend: exa
 browser:
   inactivity_timeout: 120
   cloud_provider: obscura
@@ -54,7 +56,7 @@ memory:
   nudge_interval: 10
   flush_min_turns: 6
 delegation:
-  max_iterations: 50
+  max_iterations: 250
 skills:
   creation_nudge_interval: 15
   disabled:
@@ -66,17 +68,23 @@ skills:
     - ascii-video
     - audiocraft-audio-generation
     - baoyu-infographic
+    - blocked-page-recovery
     - blogwatcher
+    - box
     - claude-code
     - claude-design
     - codebase-inspection
     - codex
     - comfyui
+    - competitor-news-monitor
     - computer-use
     - data-science
     - design-md
+    - document-to-action-items
+    - docx
     - dogfood
     - email
+    - email-inbox-triage
     - evaluating-llms-harness
     - excalidraw
     - gif-search
@@ -87,15 +95,18 @@ skills:
     - github-pr-workflow
     - github-repo-management
     - google-workspace
+    - grounded-citations
     - heartmula
     - himalaya
     - huggingface-hub
     - humanizer
+    - inspecting-hermes-desktop-dom
     - jupyter-live-kernel
     - llama-cpp
     - llm-wiki
     - manim-video
     - maps
+    - meeting-action-items
     - mlops
     - nano-pdf
     - node-inspect-debugger
@@ -113,6 +124,7 @@ skills:
     - python-debugpy
     - requesting-code-review
     - research-paper-writing
+    - sdlc-review
     - segment-anything-model
     - serving-llms-vllm
     - simplify-code
@@ -126,6 +138,7 @@ skills:
     - test-driven-development
     - touchdesigner-mcp
     - weights-and-biases
+    - xlsx
     - xurl
     - youtube-content
     - yuanbao
@@ -134,7 +147,7 @@ code_execution:
   max_tool_calls: 50
 streaming:
   enabled: true
-_config_version: 33
+_config_version: 46
 session_reset:
   mode: both
   idle_minutes: 1440
@@ -142,13 +155,13 @@ session_reset:
 group_sessions_per_user: true
 platform_toolsets:
   cli:
-    - web
     - clarify
     - cronjob
     - file
     - memory
     - skills
     - terminal
+    - web
 plugins:
   enabled:
     - browser-obscura
@@ -233,6 +246,11 @@ plugins:
     - web/searxng
     - web/tavily
     - web/xai
-web:
-  backend: exa
-  
+  entries:
+    web/exa:
+      allow_tool_override: false
+tools:
+  todoist:
+    enabled: true
+    auth_method: api_token
+    env_var: TODOIST_API_TOKEN

@@ -130,8 +130,17 @@
 	@hermes host hermes.{$DOMAIN}
 	handle @hermes {
 		import only_admin
-		reverse_proxy {$IP_PERSONAL}:9119 {
-			flush_interval -1
+
+		handle_path /gateway* {
+			reverse_proxy {$IP_PERSONAL}:8642 {
+				flush_interval -1
+			}
+		}
+
+		handle {
+			reverse_proxy {$IP_PERSONAL}:9119 {
+				flush_interval -1
+			}
 		}
 	}
 
