@@ -4,7 +4,7 @@ http://googol.ts:8080 {
 	}
 }
 
-https://jelly.example.com {
+https://jelly.{$DOMAIN} {
 	encode zstd gzip
 
 	header {
@@ -14,7 +14,7 @@ https://jelly.example.com {
 		defer
 	}
 
-	reverse_proxy 10.0.2.6:8096 {
+	reverse_proxy {$IP_MEDIA}:8096 {
 		flush_interval -1
 	}
 }

@@ -4,7 +4,7 @@
 # - Disable key expiry for this machine and VM.
 # - Set corresponding IPs for caddy
 # - Approve/Auto-accept the exit node and subnet routes.
-# - Set the Tailnet Split DNS to point this for "lxc" and "example.com" domains.
+# - Set the Tailnet Split DNS to point to this gateway for custom domains.
 
 # Check if Tailscale is installed
 if ! command -v tailscale &> /dev/null; then
