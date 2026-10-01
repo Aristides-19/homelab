@@ -23,4 +23,5 @@ echo "Configuring Tailscale..."
 tailscale up \
   --advertise-routes=10.0.0.0/16,192.168.0.0/24 \
   --advertise-exit-node \
+  --snat-subnet-routes=false \
   --accept-dns=false
