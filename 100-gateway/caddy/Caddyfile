@@ -102,9 +102,18 @@
 	# Personal LXC
 	@vault host vault.{$DOMAIN}
 	handle @vault {
-		import only_local
-		reverse_proxy {$IP_PERSONAL}:8080 {
-			header_up X-Real-IP {remote_host} # Vault uses this instead of X-Forwarded-For
+		@admin path /admin*
+		handle @admin {
+			import only_admin
+			reverse_proxy {$IP_PERSONAL}:8080 {
+				header_up X-Real-IP {remote_host}
+			}
+		}
+
+		handle {
+			reverse_proxy {$IP_PERSONAL}:8080 {
+				header_up X-Real-IP {remote_host}
+			}
 		}
 	}
 
