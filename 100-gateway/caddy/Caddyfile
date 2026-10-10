@@ -159,6 +159,13 @@
 		reverse_proxy {$IP_PERSONAL}:9090
 	}
 
+	@tududi host todo.{$DOMAIN}
+	handle @tududi {
+		reverse_proxy {$IP_PERSONAL}:3002 {
+			flush_interval -1
+		}
+	}
+
 	# Media LXC
 	@jelly host jelly.{$DOMAIN}
 	handle @jelly {

@@ -249,8 +249,3 @@ plugins:
   entries:
     web/exa:
       allow_tool_override: false
-tools:
-  todoist:
-    enabled: true
-    auth_method: api_token
-    env_var: TODOIST_API_TOKEN

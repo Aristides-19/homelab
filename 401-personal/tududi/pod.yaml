@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tududi
+spec:
+  containers:
+    - name: tududi
+      image: docker.io/chrisvel/tududi:1.8.0
+      ports:
+        - containerPort: 3002
+          hostPort: 3002
+      envFrom:
+        - configMapRef:
+            name: env
+      volumeMounts:
+        - name: db
+          mountPath: /app/db
+        - name: uploads
+          mountPath: /app/uploads
+        - name: backups
+          mountPath: /app/backups
+      resources:
+        limits:
+          memory: 512Mi
+        requests:
+          memory: 128Mi
+
+  volumes:
+    - name: db
+      hostPath:
+        path: /data/tududi/db
+        type: DirectoryOrCreate
+    - name: uploads
+      hostPath:
+        path: /data/tududi/uploads
+        type: DirectoryOrCreate
+    - name: backups
+      hostPath:
+        path: /data/tududi/backups
+        type: DirectoryOrCreate
+

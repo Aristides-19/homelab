@@ -1,0 +1,11 @@
+[Unit]
+Description=Tududi Pod (Podman Quadlet KUBE)
+After=network-online.target
+
+[Kube]
+Yaml=/opt/tududi/pod.yaml
+ConfigMap=/opt/tududi/env.yaml
+
+[Install]
+WantedBy=multi-user.target
+
