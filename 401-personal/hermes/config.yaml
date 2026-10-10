@@ -1,7 +1,6 @@
 model:
-  default: gemini-pro-agent
-  provider: anthropic
-  base_url: http://127.0.0.1:9090/v1
+  default: deepseek-flash
+  provider: deepseek
 agent:
   max_turns: 60
   verify_on_stop: false
