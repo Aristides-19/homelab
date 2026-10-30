@@ -6,7 +6,7 @@ spec:
   hostNetwork: true
   containers:
     - name: server
-      image: ghcr.io/home-assistant/home-assistant:2026.7
+      image: ghcr.io/home-assistant/home-assistant:2026.10
       securityContext:
         privileged: true
       envFrom:
