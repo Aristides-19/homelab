@@ -27,6 +27,8 @@
 - Each service directory mounted from Proxmox host inside corresponding LXC.
 - Enables Proxmox host modify configs, immediately reflected inside LXC, vice versa.
 - ALWAYS run `host/permissions.sh` Proxmox host after edit/add files. Restores ownership (`100000:100000`) for unprivileged LXCs.
+- ALWAYS reboot the LXC after adding/removing/changing mountpoints (`pct reboot [id]`), so the bind mounts resync. Removing a mountpoint from the config does NOT unmount it live: an unprivileged LXC cannot `umount` it ("not mounted" / "Device or resource busy") and leaves an empty stub directory that only a reboot clears. Verify inside the LXC with `findmnt -no SOURCE,FSTYPE [path]` and remove the leftover stub dir with `rmdir` after the reboot.
+- Renumbering gaps in `mpN` indices are harmless (e.g. deleting `mp5` leaves `mp6`); no need to renumber.
 
 ## Internal Network & Gateway
 - LXC `100-gateway` acts as subnet router.
