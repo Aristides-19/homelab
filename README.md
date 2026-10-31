@@ -26,4 +26,5 @@
 
 ## Hardware & Host Configuration
 - **UPS Monitoring:** Configured on host using Network UPS Tools (NUT). See `host/nut/README.md`.
+- **Host scripts:** See `host/README.md` for maintenance tooling (image pruning, disk cleanup).
 
