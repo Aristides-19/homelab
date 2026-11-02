@@ -4,6 +4,11 @@
 - [ ] Service folder created: `/opt/homelab/[id]-[hostname]/[service-name]/`.
 - [ ] Files exist: `pod.yaml`, `pod.kube`, `env.sample.yaml`, `setup.sh`.
 - [ ] Secrets/sensitive data NOT in template. Put secrets ONLY in gitignored `env.yaml`.
+- [ ] `env.sample.yaml` has NO real infrastructure values: no real domain, hostname, IP, mailbox or account id — only `change.me` / `example.com` placeholders. Real values go in `env.yaml`.
+- [ ] Config is NOT duplicated between `pod.yaml`'s `env:` and `env.yaml`: one ConfigMap is the single source (an explicit `env:` entry silently wins).
+- [ ] Contact/identity fields (`VAPID_SUBJECT`, mail from-addresses) are a real `mailto:`/URL of the operator, verified against what the app does with them.
+- [ ] Host-created data dirs checked for unprivileged LXC ownership (`100000:100000`); an unmapped `root:root` dir makes even container root get `EACCES`.
+- [ ] No `readinessProbe`/`livenessProbe` on images whose HEALTHCHECK cannot be overridden (`podman kube play` ignores `test: ["NONE"]`); health checked from outside instead.
 - [ ] Proxmox host `/etc/pve/lxc/[id].conf` has mountpoint mapping host directory `/opt/[service-name]`.
 - [ ] For important data/dbs: verify mountpoint `mp[N]` map host `/mnt/[hostname]` to `/data` in LXC.
 - [ ] Config copy synced: run `host/config/update.sh` on Proxmox host.
