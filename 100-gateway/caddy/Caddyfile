@@ -143,6 +143,16 @@
 		}
 	}
 
+	@gym host gym.{$DOMAIN}
+	handle @gym {
+		reverse_proxy {$IP_PERSONAL}:3010 {
+			flush_interval -1
+		}
+		request_body {
+			max_size 48MB
+		}
+	}
+
 	# Media LXC
 	@jelly host jelly.{$DOMAIN}
 	handle @jelly {
