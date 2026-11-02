@@ -28,6 +28,22 @@ The live `env.yaml` is gitignored; `env.sample.yaml` is committed. They are two 
 - **Prefer omitting an optional variable over guessing.** Read the app's fallback in code before filling it in. Example: `VAPID_SUBJECT` unset makes the API use its `ORIGIN`, which is valid for the protocol and an honest identifier for the instance; a `mailto:` is only worth setting for a mailbox that exists.
 - When a bulk `sed` rewrites a real domain into a file, re-read neighbouring values afterwards: placeholders sitting next to the substituted one get overwritten or silently turned into claims about infrastructure.
 
+## What takes effect when: `pod.yaml` vs `env.yaml` vs `pod.kube`
+
+Three files, three different update paths. Getting this wrong is silent: the unit restarts happily and keeps running the old thing.
+
+| File | Who reads it | To apply a change |
+| --- | --- | --- |
+| `pod.yaml` | `podman kube play` on **every start** (the unit's `ExecStart`) | `systemctl restart <svc>` |
+| `env.yaml` | passed as `--configmap /opt/<svc>/env.yaml` on **every start** | `systemctl restart <svc>` |
+| `pod.kube` | **copied** to `/etc/containers/systemd/<svc>.kube`, which systemd turns into the unit at `daemon-reload` | `setup.sh` (cp + daemon-reload) **then** restart |
+
+- **Only `pod.kube` needs `setup.sh`.** `env.yaml` and `pod.yaml` are read by the runtime at start, so a restart is enough — nothing caches them.
+- `systemctl reload` does **not** re-read `env.yaml`; it is not an in-place setting. Use `restart`.
+- Editing `pod.kube` and only restarting does **nothing**: the unit is generated from the copy in `/etc/containers/systemd/`, not from the service directory.
+- Verify what the unit actually runs: `systemctl show <svc> -p FragmentPath` (expect `/run/systemd/generator/<svc>.service`) and `cat` that file to read the real `ExecStart` and `--configmap` path.
+- Re-running `setup.sh` is idempotent, so the safe habit is: run it, then restart. Its own header documents this.
+
 ## Unprivileged LXC: host-created directories are unreachable
 
 A subdirectory created **on the Proxmox host** under a parent owned by `100000:100000` (e.g. `/mnt/personal/<svc>`) is born `root:root 755`. Inside the unprivileged LXC it appears as `65534:nogroup` (unmapped uid), so **even container root gets `EACCES`** when writing — the app starts and then fails on its first write. Creating the same directory from *inside* the LXC works, which is the tell.

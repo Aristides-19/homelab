@@ -15,6 +15,12 @@
 - [ ] Config copy synced: run `host/config/update.sh` on Proxmox host.
 - [ ] Permissions fixed: run `host/permissions.sh` Proxmox host. Checks ownership (`100000:100000`).
 
+## Applying a change (after the first deploy)
+- [ ] `env.yaml` or `pod.yaml` changed → `systemctl restart <svc>` is enough (both are read at start).
+- [ ] `pod.kube` changed → re-run `setup.sh` (cp + daemon-reload), then restart. A restart alone does nothing.
+- [ ] Never `systemctl reload` to apply config: it does not re-read `env.yaml`.
+- [ ] Confirmed the running unit points where expected: `systemctl show <svc> -p FragmentPath` + `cat` it.
+
 ## During Deployment
 - [ ] Run commands inside LXC using Proxmox host `pct exec [id] -- [command]`.
 - [ ] Create `env.yaml` inside `/opt/[service-name]/` using `env.sample.yaml` schema. Fill actual secrets.
