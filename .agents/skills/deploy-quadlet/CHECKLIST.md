@@ -6,7 +6,8 @@
 - [ ] Secrets/sensitive data NOT in template. Put secrets ONLY in gitignored `env.yaml`.
 - [ ] `env.sample.yaml` has NO real infrastructure values: no real domain, hostname, IP, mailbox or account id — only `change.me` / `example.com` placeholders. Real values go in `env.yaml`.
 - [ ] Config is NOT duplicated between `pod.yaml`'s `env:` and `env.yaml`: one ConfigMap is the single source (an explicit `env:` entry silently wins).
-- [ ] Contact/identity fields (`VAPID_SUBJECT`, mail from-addresses) are a real `mailto:`/URL of the operator, verified against what the app does with them.
+- [ ] Contact/identity fields (`VAPID_SUBJECT`, mail from-addresses) are a real existing mailbox or URL, or omitted so the app's own fallback applies — never invented from the domain.
+- [ ] After a bulk domain substitution, placeholders around it were re-checked; no fabricated infrastructure values (mailboxes, hostnames) were introduced.
 - [ ] Host-created data dirs checked for unprivileged LXC ownership (`100000:100000`); an unmapped `root:root` dir makes even container root get `EACCES`.
 - [ ] No `readinessProbe`/`livenessProbe` on images whose HEALTHCHECK cannot be overridden (`podman kube play` ignores `test: ["NONE"]`); health checked from outside instead.
 - [ ] Proxmox host `/etc/pve/lxc/[id].conf` has mountpoint mapping host directory `/opt/[service-name]`.
