@@ -1,0 +1,69 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: opengym
+spec:
+  containers:
+    # API: passkey auth, per-user data, photos/videos of custom exercises.
+    # Runs as root and writes everything under /data (host: /data/opengym).
+    - name: api
+      image: ghcr.io/duartesantos8/opengym-api:latest
+      # Every setting - RP_ID, ORIGIN, TRUST_PROXY, DATA_DIR, PORT, the MEDIA_* limits - is in
+      # env.yaml and nothing is restated here: two sources for one value silently diverge, and
+      # an entry here would win over the ConfigMap.
+      envFrom:
+        - configMapRef:
+            name: env
+      ports:
+        - containerPort: 3000
+          # Loopback only: nothing may reach the API without going through web (CORS/CSRF origin checks).
+          hostIP: 127.0.0.1
+          hostPort: 3000
+      volumeMounts:
+        - name: data
+          mountPath: /data
+        # Codex provider credential cache. Sibling of /data on purpose: it must not end up
+        # inside the backup of /data.
+        - name: coach-auth
+          mountPath: /coach-auth
+      # No probes. `podman kube play` ignores `healthcheck.test: ["NONE"]`, so the image's own
+      # HEALTHCHECK (a `curl -f http://localhost:3000/api/health`, and this image ships no curl)
+      # always ends up unhealthy; with a probe attached, podman then stops and recreates the
+      # container on every probe interval (observed: restarts every ~4 min, each a SIGKILL after
+      # a 10 s SIGTERM timeout, because the API ignores SIGTERM). Without probes an unhealthy
+      # state alone restarts nothing, and systemd's Restart=on-failure still covers a real exit.
+      # Health is checked from the host side instead:
+      #   pct exec 401 -- curl -s http://127.0.0.1:3010/api/health
+      # (the pod's own 127.0.0.1 is the infra container, so a probe could not use localhost).
+      resources:
+        limits:
+          memory: 512Mi
+        requests:
+          memory: 64Mi
+
+    # Web: static app, proxies /api to the api container and serves the exercise media.
+    # Runs as uid 101, listens on 8080 (unprivileged) because Podman does not allow
+    # binding < 1024 the way Docker does.
+    - name: web
+      image: ghcr.io/duartesantos8/opengym-web:latest
+      envFrom:
+        - configMapRef:
+            name: env
+      ports:
+        - containerPort: 8080
+          hostPort: 3010
+      resources:
+        limits:
+          memory: 256Mi
+        requests:
+          memory: 32Mi
+
+  volumes:
+    - name: data
+      hostPath:
+        path: /data/opengym/data
+        type: DirectoryOrCreate
+    - name: coach-auth
+      hostPath:
+        path: /data/opengym/coach-auth
+        type: DirectoryOrCreate

@@ -1,0 +1,10 @@
+[Unit]
+Description=openGym Pod (Podman Quadlet KUBE)
+After=network-online.target
+
+[Kube]
+Yaml=/opt/opengym/pod.yaml
+ConfigMap=/opt/opengym/env.yaml
+
+[Install]
+WantedBy=multi-user.target
