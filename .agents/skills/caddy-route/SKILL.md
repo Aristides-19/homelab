@@ -26,6 +26,8 @@ description: Manages Caddy reverse proxy routes in Gateway LXC. Use when adding 
    `pct exec 100 -- systemctl reload caddy`
    (Alternative: `pct exec 100 -- caddy reload --config /etc/caddy/Caddyfile`)
 
+   `reload` re-reads the Caddyfile but **not** `/etc/caddy/.env`. After adding or changing a variable there (e.g. `IP_<UPPER>`) run `pct exec 100 -- systemctl restart caddy`, or the route resolves an empty address and returns 502.
+
 ## References
 
 - **Templates**: See [TEMPLATES.md](TEMPLATES.md)

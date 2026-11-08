@@ -48,5 +48,6 @@
 | [authoring-skills](.agents/skills/authoring-skills/SKILL.md)       | Guides the creation, formatting, and refinement of Skills.   |
 | [caddy-route](.agents/skills/caddy-route/SKILL.md)                 | Manages Caddy reverse proxy routes in Gateway LXC.           |
 | [caveman-compression](.agents/skills/caveman-compression/SKILL.md) | Aggressively removes stop words and grammatical scaffolding. |
+| [create-lxc](.agents/skills/create-lxc/SKILL.md)                   | Creates and wires a new LXC container (network, DNS, SSH, mounts). |
 | [debug-quadlet](.agents/skills/debug-quadlet/SKILL.md)             | Troubleshoots Podman Quadlet service failures inside LXCs.   |
 | [deploy-quadlet](.agents/skills/deploy-quadlet/SKILL.md)           | Guides creation and deployment of Podman Quadlet services.   |
