@@ -24,7 +24,6 @@ Tick every line before reporting done.
 - [ ] `./host/config/update.sh` run
 - [ ] `host/config/<id>.conf` present and matching live config
 - [ ] Folder `<id>-<hostname>/` created
-- [ ] `README.md` line added under **Active Services**, in English
 
 ## DNS
 

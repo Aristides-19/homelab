@@ -65,9 +65,3 @@ Host <hostname>-lxc
 ```
 
 Omit `ProxyJump` for the gateway container only.
-
-## `README.md` entry
-
-```markdown
-- **<id>-<hostname>:** <Purpose> (`<subdomain>.<DOMAIN>`).
-```

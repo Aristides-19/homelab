@@ -90,11 +90,6 @@ Verify: `ssh <hostname>-lxc 'hostname'`
 pct exec 100 -- systemctl restart caddy
 ```
 
-11. **Document.** One English line in `README.md` → **Active Services**:
-
-```
-- **<id>-<hostname>:** <Purpose> (`<subdomain>.<DOMAIN>`).
-```
 
 Track progress with [CHECKLIST.md](CHECKLIST.md). The service itself is `deploy-quadlet`.
 
