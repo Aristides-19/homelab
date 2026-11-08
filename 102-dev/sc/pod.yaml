@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: sc
+spec:
+  containers:
+    - name: app
+      # Demo image: it seeds a sample user and session on first start.
+      image: ghcr.io/centro-mundo-x/sc-dashboard:latest
+      envFrom:
+        - configMapRef:
+            name: env
+      ports:
+        # The dashboard only. The API stays internal on PORT 3000.
+        - containerPort: 8080
+          hostPort: 8080
+      livenessProbe:
+        httpGet:
+          path: /api/health
+          port: 8080
+        initialDelaySeconds: 10
+        periodSeconds: 10
+        failureThreshold: 5
+      volumeMounts:
+        - name: data
+          mountPath: /app/data
+
+  volumes:
+    - name: data
+      hostPath:
+        path: /data/sc/data
+        type: DirectoryOrCreate

@@ -1,0 +1,10 @@
+[Unit]
+Description=SC Pod (Podman Quadlet KUBE)
+After=network-online.target
+
+[Kube]
+Yaml=/opt/sc/pod.yaml
+ConfigMap=/opt/sc/env.yaml
+
+[Install]
+WantedBy=multi-user.target

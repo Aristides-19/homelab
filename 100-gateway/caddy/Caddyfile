@@ -186,6 +186,12 @@
 		reverse_proxy {$IP_HOME}:8123
 	}
 
+	# Dev LXC
+	@sc host sc.{$DOMAIN}
+	handle @sc {
+		reverse_proxy {$IP_DEV}:8080
+	}
+
 	# Fallback
 	@health host health.{$DOMAIN}
 	handle @health {
