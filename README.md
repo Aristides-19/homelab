@@ -18,6 +18,7 @@
 ## Active Services
 - **100-gateway:** Caddy (Reverse Proxy), Tailscale (VPN), Cloudflare Tunnel, AdGuard Home (DNS).
 - **101-data:** Immich, Karakeep, Paperless.
+- **102-dev:** Development sandbox.
 - **200-monitor:** Uptime Kuma, Dozzle (agents in each LXC).
 - **206-media:** Jellyfin, qBittorrent.
 - **401-personal:** Vaultwarden, IT Tools, Obsidian Live Sync, Tududi.

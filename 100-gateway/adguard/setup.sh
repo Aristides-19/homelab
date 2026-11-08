@@ -133,6 +133,7 @@ if [ -f "$CADDY_ENV" ]; then
     add_rewrite "backup.lxc" "${IP_BACKUP}"
     add_rewrite "personal.lxc" "${IP_PERSONAL}"
     add_rewrite "home.lxc" "${IP_HOME}"
+    add_rewrite "dev.lxc" "${IP_DEV}"
     
     # Tailscale googol rewrite
     add_rewrite "googol.ts" "${IP_GOOGOL}"
