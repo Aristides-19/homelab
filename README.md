@@ -21,7 +21,7 @@
 - **102-dev:** Development sandbox.
 - **200-monitor:** Uptime Kuma, Dozzle (agents in each LXC).
 - **206-media:** Jellyfin, qBittorrent.
-- **401-personal:** Vaultwarden, IT Tools, Obsidian Live Sync, Tududi.
+- **401-personal:** Vaultwarden, IT Tools, Obsidian Live Sync.
 - **403-backup:** Restic (cronjobs + Backblaze S3).
 - **418-home:** Home Assistant.
 

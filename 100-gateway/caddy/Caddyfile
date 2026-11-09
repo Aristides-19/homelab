@@ -153,13 +153,6 @@
 		}
 	}
 
-	@tududi host todo.{$DOMAIN}
-	handle @tududi {
-		reverse_proxy {$IP_PERSONAL}:3002 {
-			flush_interval -1
-		}
-	}
-
 	@gym host gym.{$DOMAIN}
 	handle @gym {
 		reverse_proxy {$IP_PERSONAL}:3010 {
