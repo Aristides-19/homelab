@@ -33,8 +33,37 @@ spec:
         requests:
           memory: 256Mi
 
+    - name: chromium
+      image: lscr.io/linuxserver/chromium:075b0b99-ls64
+      ports:
+        - containerPort: 3000
+          hostPort: 3002
+      env:
+        - name: PUID
+          value: "1993"
+        - name: PGID
+          value: "1993"
+        - name: TZ
+          value: America/Caracas
+        - name: LANG
+          value: es_VE.UTF-8
+        - name: CHROME_CLI
+          value: "--remote-debugging-port=9222 --user-data-dir=/config/chrome-profile --no-first-run --no-default-browser-check --disable-features=Translate --lang=es-VE --accept-lang=es-VE,es --process-per-site --renderer-process-limit=2 --js-flags=--max-old-space-size=256 --disable-background-networking --disable-component-update --disable-extensions"
+      volumeMounts:
+        - name: browser
+          mountPath: /config
+      resources:
+        limits:
+          memory: 2048Mi
+        requests:
+          memory: 512Mi
+
   volumes:
     - name: home
       hostPath:
         path: /data/hermes/dev
+        type: DirectoryOrCreate
+    - name: browser
+      hostPath:
+        path: /data/hermes/browser
         type: DirectoryOrCreate

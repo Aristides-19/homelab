@@ -1,0 +1,15 @@
+#!/bin/bash
+# Chromium watchdog for the hermes-chromium sidecar (linuxserver/chromium).
+#
+# labwc runs this on every desktop start. Chromium is the only client of the
+# Wayland compositor: closing it leaves Selkies streaming an empty desktop
+# (black screen) AND takes down the CDP endpoint on 127.0.0.1:9222 that Hermes
+# attaches to via browser.cdp_url. Wrapping it in a loop means a closed window
+# reopens after 2s instead of silently breaking the agent's browser.
+#
+# Canonical copy lives in the repo; setup.sh installs it into
+# /data/hermes/browser/.config/labwc/autostart (owned by PUID/PGID 1993).
+while true; do
+  wrapped-chromium ${CHROME_CLI}
+  sleep 2
+done
