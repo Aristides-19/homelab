@@ -9,6 +9,7 @@ LocalMobile 192.168.0.43
 LocalPC 192.168.0.42
 TailscaleMobile 100.64.1.2
 TailscalePC 100.64.1.1
+TailscaleGateway 100.64.0.1
 
 [IPSET admins]
 
@@ -16,6 +17,7 @@ dc/localmobile
 dc/localpc
 dc/tailscalemobile
 dc/tailscalepc
+dc/tailscalegateway
 
 [group ping]
 
