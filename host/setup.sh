@@ -15,5 +15,14 @@ EOF
 chmod +x /etc/network/if-up.d/tailscale-route
 IFACE=vmbr0 /etc/network/if-up.d/tailscale-route
 
+# SSH is publickey-only, matching the LXCs
+cat << 'EOF' > /etc/ssh/sshd_config.d/99-harden.conf
+# Disable password auth: access is publickey-only, as in the LXCs.
+PermitRootLogin prohibit-password
+PasswordAuthentication no
+KbdInteractiveAuthentication no
+EOF
+sshd -t && systemctl reload ssh
+
 # Run permissions script
 /bin/bash "$(dirname "$0")/permissions.sh"

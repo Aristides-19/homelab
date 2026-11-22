@@ -5,7 +5,7 @@ Scripts run **on the Proxmox host** as `root`, unless noted otherwise.
 ## Setup
 | Script | Purpose |
 | --- | --- |
-| `setup.sh` | First-time host bootstrap: `apt upgrade`, IP forwarding sysctl, Tailscale route via gateway, then `permissions.sh`. |
+| `setup.sh` | First-time host bootstrap: `apt upgrade`, IP forwarding sysctl, Tailscale route via gateway, SSH publickey-only hardening, then `permissions.sh`. |
 | `lxc_setup.sh` | Creates/base-configures an LXC container. |
 | `permissions.sh` | Restores ownership (`100000:100000`) and modes for unprivileged LXCs. Run after editing/adding files. |
 
