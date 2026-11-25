@@ -5,10 +5,8 @@ metadata:
 spec:
   containers:
     - name: gateway
-      image: docker.io/nousresearch/hermes-agent:v0.23.0
+      image: docker.io/nousresearch/hermes-agent:v0.23.4
       ports:
-        - containerPort: 8642
-          hostPort: 8642
         - containerPort: 9119
           hostPort: 9119
       args: ["gateway", "run"]

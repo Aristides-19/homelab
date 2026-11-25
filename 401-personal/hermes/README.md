@@ -6,7 +6,7 @@ Hermes Agent gateway plus a Chromium sidecar in a single Podman pod (`hermes`).
 
 | Name | Image | Purpose |
 | --- | --- | --- |
-| `hermes-gateway` | `docker.io/nousresearch/hermes-agent:v0.23.0` | Agent gateway. Ports `8642` (API), `9119` (dashboard). |
+| `hermes-gateway` | `docker.io/nousresearch/hermes-agent:v0.23.4` | Agent gateway. Port `9119` (Webapp + session API). |
 | `hermes-chromium` | `lscr.io/linuxserver/chromium:075b0b99-ls64` | Real desktop Chromium on a Wayland compositor. Port `3002` → `3000` (Selkies). |
 
 Both containers share the pod network namespace, which is the whole point:
@@ -20,6 +20,37 @@ Hermes attaches via `browser.cdp_url` in `~/.hermes/config.yaml`. That setting t
 precedence over any cloud provider and over the local engine, so **Hermes never launches
 its own browser** and never touches the profile. The `hermes-chromium` container is the
 single owner of `/config/chrome-profile`.
+
+## Webapp (v0.23.4 migration)
+
+Before v0.23.4 the pod ran two Hermes processes: the gateway (`8642` API server) and a
+separate `hermes dashboard` on `9119`. Chats opened in the dashboard ran in that second
+process, not in the gateway.
+
+Since v0.23.4 the gateway serves the **Webapp** at `9119` itself, so there is a single
+Hermes process and every chat runs in the gateway. Configured in `config.yaml`:
+
+```yaml
+webapp:
+  enabled: true
+  host: 0.0.0.0   # required in a container; loopback is unreachable via hostPort
+  port: 9119      # unchanged, so https://hermes.<DOMAIN> and its Caddy route still work
+```
+
+The **OpenAI-compatible API server (`8642`) was removed**: it was a separate platform
+adapter with no clients. Its `hostPort`, its `API_SERVER_*` variables and the Caddy
+`/gateway*` route are gone. The Desktop never used it — native clients (CLI, TUI,
+Desktop) connect over the gateway's session listener on `9119`.
+
+Sign-in is unchanged: `HERMES_DASHBOARD_BASIC_AUTH_*` still applies, because the Webapp
+uses the dashboard's auth providers. A non-loopback `webapp.host` requires one and fails
+closed without it.
+
+`HERMES_DASHBOARD=1` was removed. The image's s6 `dashboard` slot stays declared but down,
+so logout still shows `s6-supervise dashboard` — that is expected.
+
+Rollback: `/data/hermes/backups/dev-pre-migration-*.tar.gz` holds the pre-migration home
+(`config.yaml.bak-migration` sits beside it).
 
 ## Mounts
 
